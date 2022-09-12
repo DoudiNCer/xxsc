@@ -1,4 +1,4 @@
-package com.example.xxsc;
+package com.sipc.xxsc;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

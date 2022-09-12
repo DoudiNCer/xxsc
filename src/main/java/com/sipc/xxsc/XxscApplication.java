@@ -1,4 +1,4 @@
-package com.example.xxsc;
+package com.sipc.xxsc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
