@@ -31,7 +31,6 @@ public class CommonResult<T> {
 
     /**
      * 成功返回结果
-     * @param
      */
     public static <T> CommonResult<T> success() {
         return new CommonResult<>(ResultEnum.SUCCESS.getCode(), ResultEnum.SUCCESS.getMessage(), null);

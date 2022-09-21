@@ -44,11 +44,4 @@ public class GlobalExceptionHandler {
     public CommonResult ErrorExceptionHandler(ErrorException e) {
         return CommonResult.fail("10002", e.getMessage());
     }
-
-
-
-//    @ExceptionHandler(DataIntegrityViolationException.class)
-//    public CommonResult<NoData> DataIntegrityViolationExceptionHandler(DataIntegrityViolationException e) {
-//        return CommonResult.fail("请求参数异常！请检查各字段长度是否合适或合规");
-//    }
 }

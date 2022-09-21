@@ -53,16 +53,6 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
         return template;
     }
 
-//    @Bean
-//    public CacheManager cacheManager() {
-//        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(12));
-//
-//        RedisCacheManager cacheManager = RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory))
-//                .cacheDefaults(config).build();
-//
-//        return cacheManager;
-//    }
-
 
     /**
      * 自定义的缓存key的生成策略 若想使用这个key

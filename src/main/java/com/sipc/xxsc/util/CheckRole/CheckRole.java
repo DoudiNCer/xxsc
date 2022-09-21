@@ -2,7 +2,6 @@ package com.sipc.xxsc.util.CheckRole;
 
 import com.sipc.xxsc.pojo.dto.CommonResult;
 import com.sipc.xxsc.pojo.dto.result.NoData;
-import com.sipc.xxsc.pojo.dto.resultEnum.ResultEnum;
 import com.sipc.xxsc.util.CheckRole.param.JWTPayloadParam;
 import com.sipc.xxsc.util.CheckRole.result.JWTCheckResult;
 

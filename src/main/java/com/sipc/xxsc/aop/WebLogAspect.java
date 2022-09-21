@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -43,12 +42,12 @@ public class WebLogAspect {
     }
 
     @Before("webLog()")
-    public void doBefore(JoinPoint joinPoint) throws Throwable{
+    public void doBefore(JoinPoint joinPoint) {
 
     }
 
     @AfterReturning(value = "webLog()",returning = "ret")
-    public void doAfterReturning(Object ret) throws Throwable{
+    public void doAfterReturning(Object ret) {
 
     }
 
@@ -57,7 +56,7 @@ public class WebLogAspect {
         long startTime = System.currentTimeMillis();
         //获取当前请求对象
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
+        HttpServletRequest request = attributes != null ? attributes.getRequest() : null;
         //记录请求信息
         WebLog webLog = new WebLog();
         Object result = joinPoint.proceed();

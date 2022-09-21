@@ -40,6 +40,13 @@ public class PasswordUtils {
         }
         return result;
     }
+
+    /**
+     * @apiNote 检查密码
+     * @param passwd 用户输入的密码
+     * @param passwdRes 数据库中的密码
+     * @return 布尔值，表示两个密码是否相符
+     */
     public static boolean checkPasswd(String passwd, String passwdRes){
         return passwdRes.equals(getsPasswd(passwd));
     }
