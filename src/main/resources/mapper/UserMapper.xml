@@ -18,15 +18,28 @@
         SET password = #{password}
         WHERE id = #{id}
     </update>
+    <update id="updateByPrimaryKey" parameterType="com.sipc.xxsc.pojo.domain.User">
+        UPDATE user
+        <set>
+            <trim suffixOverrides=",">
+                <if test="name != null">
+                    name = #{name,jdbcType=CHAR},
+                </if>
+                <if test="email != null">
+                    email = #{email,jdbcType=VARCHAR}
+                </if>
+            </trim>
+        </set>
+        WHERE id=#{id}
+    </update>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap">
         SELECT * FROM user
         WHERE id = #{id}
     </select>
 
-    <select id="selectByUserName" resultType="com.sipc.xxsc.pojo.domain.User">
+    <select id="selectByUserName" resultMap="BaseResultMap">
         SELECT * FROM user
         WHERE name = #{name}
     </select>
-
 </mapper>

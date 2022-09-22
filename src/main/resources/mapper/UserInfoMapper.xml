@@ -29,7 +29,30 @@
             <if test="avatarUrl != null">
                 #{avatarUrl,jdbcType=VARCHAR},
             </if>
+            <if test="avatarUrl == null">
+                "https://avatars.githubusercontent.com/u/52723337?v=4"
+            </if>
         </trim>
     </insert>
+    <update id="updateByPrimaryKey" parameterType="com.sipc.xxsc.pojo.domain.UserInfo">
+        UPDATE user_info
+        <set>
+            <trim suffixOverrides=",">
+                <if test="gender != null">
+                    gender = #{gender,jdbcType=TINYINT},
+                </if>
+            </trim>
+        </set>
+        WHERE user_id = #{userId,jdbcType=INTEGER}
+    </update>
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT * FROM user_info
+        WHERE user_id = #{userId}
+    </select>
+    <select id="selectByUsername" resultMap="BaseResultMap">
+        SELECT *
+        FROM user
+        WHERE name = #{name}
+    </select>
 
 </mapper>
