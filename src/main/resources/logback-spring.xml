@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
 
-    <property name="PATH" value="/home/xxsc/mydata/app/log"/>
+    <property name="PATH" value="/root/xxsc/log"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
