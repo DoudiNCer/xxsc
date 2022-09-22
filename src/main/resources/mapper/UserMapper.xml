@@ -19,15 +19,14 @@
         WHERE id = #{id}
     </update>
 
-    <select id="selectByPrimaryKey" resultType="com.sipc.xxsc.pojo.domain.User">
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
         SELECT * FROM user
         WHERE id = #{id}
     </select>
 
     <select id="selectByUserName" resultType="com.sipc.xxsc.pojo.domain.User">
-        select * from user
-        where name = #{name}
+        SELECT * FROM user
+        WHERE name = #{name}
     </select>
-
 
 </mapper>

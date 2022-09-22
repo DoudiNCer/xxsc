@@ -1,7 +1,9 @@
 package com.sipc.xxsc.service.Impl;
 
+import com.sipc.xxsc.mapper.UserInfoMapper;
 import com.sipc.xxsc.mapper.UserMapper;
 import com.sipc.xxsc.pojo.domain.User;
+import com.sipc.xxsc.pojo.domain.UserInfo;
 import com.sipc.xxsc.pojo.dto.CommonResult;
 import com.sipc.xxsc.pojo.dto.param.login.ChangePasswordParam;
 import com.sipc.xxsc.pojo.dto.param.login.LoginParam;
@@ -25,6 +27,10 @@ import java.util.Objects;
 public class UserLoginServiceImpl implements UserLoginService {
     @Resource
     UserMapper userMapper;
+
+    @Resource
+    UserInfoMapper userInfoMapper;
+
     /**
      * @param request HTTP请求
      * @param response HTTP响应
@@ -41,6 +47,10 @@ public class UserLoginServiceImpl implements UserLoginService {
         user.setName(param.getUserName());
         user.setEmail(param.getEmail());
         user.setPassword(PasswordUtils.getsPasswd(param.getPassword()));
+        userMapper.insert(user);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(user.getId());
+        userInfoMapper.insert(userInfo);
         return CommonResult.success();
     }
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sipc.xxsc.mapper.UserInfoMapper">
+    <resultMap id="BaseResultMap" type="com.sipc.xxsc.pojo.domain.UserInfo">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="gender" jdbcType="INTEGER" property="gender"/>
+        <result column="avatar_url" jdbcType="VARBINARY" property="avatarUrl"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.sipc.xxsc.pojo.domain.UserInfo">
+        INSERT INTO user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="avatarUrl != null">
+                avatar_url,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=TINYINT},
+            </if>
+            <if test="avatarUrl != null">
+                #{avatarUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>
