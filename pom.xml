@@ -70,7 +70,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.8.6</version>
+            <version>5.8.7</version>
         </dependency>
         <!--okhttp-->
         <dependency>
@@ -88,7 +88,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>8.0.0.Final</version>
+            <version>6.0.20.Final</version>
         </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>
