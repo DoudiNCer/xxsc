@@ -108,6 +108,12 @@
 <!--            <version>1.32</version>-->
 <!--            <scope>compile</scope>-->
 <!--        </dependency>-->
+        <!--飞书机器人-->
+        <dependency>
+            <groupId>club.javafamily</groupId>
+            <artifactId>feishu-notification-spring-boot-starter</artifactId>
+            <version>2.3.2-beta.8</version>
+        </dependency>
     </dependencies>
 
     <build>
