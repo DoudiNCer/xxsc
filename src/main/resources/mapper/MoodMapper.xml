@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sipc.xxsc.mapper.MoodMapper">
+    <resultMap id="BaseResultMap" type="com.sipc.xxsc.pojo.domain.Mood">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="mood" jdbcType="INTEGER" property="mood"/>
+        <result column="date" jdbcType="BIGINT" property="date"/>
+        <result column="message" jdbcType="VARCHAR" property="message"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.sipc.xxsc.pojo.domain.Mood">
+        INSERT INTO mood(user_id, mood, date, message)
+        VALUES(#{userId}, #{mood}, #{date}, #{message});
+    </insert>
+    <update id="updateById" parameterType="com.sipc.xxsc.pojo.domain.Mood">
+        UPDATE mood
+        SET
+            <trim suffixOverrides=",">
+                <if test="mood != null">
+                    mood = #{mood},
+                </if>
+                <if test="message != null">
+                    message = #{message},
+                </if>
+            </trim>
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT *
+        FROM mood
+        WHERE user_id = #{userId};
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT *
+        FROM mood
+        WHERE id = #{id};
+    </select>
+
+</mapper>
