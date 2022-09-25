@@ -48,6 +48,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         user.setEmail(param.getEmail());
         user.setPassword(PasswordUtils.getsPasswd(param.getPassword()));
         userMapper.insert(user);
+        user = userMapper.selectByUserName(param.getUserName());
         UserInfo userInfo = new UserInfo();
         userInfo.setUserId(user.getId());
         userInfoMapper.insert(userInfo);

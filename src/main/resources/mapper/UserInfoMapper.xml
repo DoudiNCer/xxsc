@@ -7,32 +7,8 @@
         <result column="avatar_url" jdbcType="VARBINARY" property="avatarUrl"/>
     </resultMap>
     <insert id="insert" parameterType="com.sipc.xxsc.pojo.domain.UserInfo">
-        INSERT INTO user_info
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="userId != null">
-                user_id,
-            </if>
-            <if test="avatarUrl != null">
-                avatar_url,
-            </if>
-            <if test="gender != null">
-                gender,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="userId != null">
-                #{userId,jdbcType=INTEGER},
-            </if>
-            <if test="gender != null">
-                #{gender,jdbcType=TINYINT},
-            </if>
-            <if test="avatarUrl != null">
-                #{avatarUrl,jdbcType=VARCHAR},
-            </if>
-            <if test="avatarUrl == null">
-                "https://avatars.githubusercontent.com/u/52723337?v=4"
-            </if>
-        </trim>
+        INSERT INTO user_info(user_id, avatar_url)
+        VALUES(#{userId}, "https://avatars.githubusercontent.com/u/52723337?v=4")
     </insert>
     <update id="updateByPrimaryKey" parameterType="com.sipc.xxsc.pojo.domain.UserInfo">
         UPDATE user_info
