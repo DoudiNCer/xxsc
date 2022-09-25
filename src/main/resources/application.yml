@@ -11,6 +11,6 @@ mybatis:
 javafamily:
   notify:
     feishu:
-      hook-url: https://open.feishu.cn/open-apis/bot/v2/hook/4c7bd8c1-77dc-4b2b-880d-bd7cd5e49b40
+      hook-url: https://open.feishu.cn/open-apis/bot/v2/hook/01f84e24-0f8a-4cfc-83cb-c25275709858
       enabled: true  # 是否开启通知, 用于不同环境下的区分(开发, 测试, 生产), 默认为 true
 
