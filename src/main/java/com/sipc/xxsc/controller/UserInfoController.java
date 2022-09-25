@@ -27,7 +27,7 @@ public class UserInfoController {
         return userInfoService.postUserInfo(request, response, param);
     }
 
-    @GetMapping(".info")
+    @GetMapping("/info")
     public CommonResult<GetUserInfoResult> getUserInfo(){
         return userInfoService.getUserInfo(request, response);
     }
