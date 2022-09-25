@@ -33,6 +33,7 @@ public class UserInfoServiceImpl implements UserInfoService {
      */
     @Override
     public CommonResult<GetUserInfoResult> getUserInfo(HttpServletRequest request, HttpServletResponse response) {
+        // 鉴权
         CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
         if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
             return CommonResult.fail(check.getCode(), check.getMessage());
@@ -58,6 +59,7 @@ public class UserInfoServiceImpl implements UserInfoService {
      */
     @Override
     public CommonResult<NoData> postUserInfo(HttpServletRequest request, HttpServletResponse response, PostUserInfoParam param) {
+        // 鉴权
         CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
         if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
             return CommonResult.fail(check.getCode(), check.getMessage());
@@ -71,7 +73,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         newUser.setId(param.getUserId());
         newUser.setEmail(param.getEmail());
         newUser.setName(param.getUserName());
-        if(userInfoMapper.selectByUsername(param.getUserName()) != null)
+        if(userInfoMapper.selectByUserName(param.getUserName()) != null)
             return CommonResult.fail("用户已存在");
         UserInfo newUserInfo = new UserInfo();
         newUserInfo.setUserId(param.getUserId());

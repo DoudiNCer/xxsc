@@ -7,5 +7,5 @@ public interface UserInfoMapper {
     int insert(UserInfo userInfo);
     UserInfo selectByUserId(Integer userId);
     int updateByPrimaryKey(UserInfo userInfo);
-    User selectByUsername(String name);
+    User selectByUserName(String name);
 }

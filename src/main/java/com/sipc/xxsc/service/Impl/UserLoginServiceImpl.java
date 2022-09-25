@@ -88,6 +88,7 @@ public class UserLoginServiceImpl implements UserLoginService {
      */
     @Override
     public CommonResult<NoData> changePassword(HttpServletRequest request, HttpServletResponse response, ChangePasswordParam param) {
+        // 鉴权
         CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
         if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
             return CommonResult.fail(check.getCode(), check.getMessage());
