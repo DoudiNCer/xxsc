@@ -14,6 +14,7 @@ public class CorsConfig {
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedOriginPattern("*");
         corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.addAllowedOrigin("*");
         return corsConfiguration;
     }
 
