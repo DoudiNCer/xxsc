@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
-public class ErrorAcvice {
+public class ErrorActive {
 
     @Resource
     private FeiShuNotifyHandler feiShuNotifyHandler;
@@ -34,8 +34,8 @@ public class ErrorAcvice {
     @ExceptionHandler(Exception.class) //也可以只对一个类进行捕获
     public void errorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) {
 
-        response.setCharacterEncoding("utf-8");
-        /**
+        response.setCharacterEncoding("UTF-8");
+        /*
          * 处理已知异常
          */
         //不带token
@@ -69,7 +69,7 @@ public class ErrorAcvice {
             return;
         }
 
-        /**
+        /*
          * 处理未知异常
          */
         StringWriter sw = new StringWriter();
@@ -82,9 +82,10 @@ public class ErrorAcvice {
 
         try {
             response.setStatus(500);
+            response.addHeader("Content-Type", "application/json;charset=utf-8");
             Map<Object, Object> map = new HashMap<>();
-            map.put("status", "Failed");
-            map.put("message", "Internal Server Error");
+            map.put("status", "猫猫错惹");
+            map.put("message", e.getMessage());
             String jsonMap = new ObjectMapper().writeValueAsString(map);
             response.getWriter().write(jsonMap);
         } catch (IOException ex) {
@@ -95,7 +96,7 @@ public class ErrorAcvice {
 
         String dataTime = dateFormat.format(date);
 
-        String content = "<at id=all></at>" +
+        String content = "<at id=7013335291536719873></at>" +
                 "\n报错时间: " + dataTime
                 + "\npath: " + request.getRequestURI()
                 + "\n异常: **" + e + "**"
@@ -104,7 +105,7 @@ public class ErrorAcvice {
         final FeiShuCardNotifyRequest tes
                 = FeiShuCardNotifyRequest.of("DEV服务器内部错误", content,
                 "可前往文档记录错误 :玫瑰:️ ✅ \uD83D\uDDA5️",
-                "https://gagjcxhxrb.feishu.cn/sheets/shtcn0zAzzmzX17NqepNicers9R");
+                "https://gagjcxhxrb.feishu.cn/sheets/shtcn0OBBxRQtN4bRh8Ox8YUtVd");
 
         feiShuNotifyHandler.notify(tes);
     }
