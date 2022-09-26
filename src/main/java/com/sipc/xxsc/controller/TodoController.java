@@ -27,17 +27,17 @@ public class TodoController {
     TodoService todoService;
 
 
-    @GetMapping("/mood")
+    @GetMapping("/todo")
     public CommonResult<TodoDetail> getTodo(){
         return todoService.getTodo(request, response);
     }
 
-    @PutMapping("/mood")
+    @PutMapping("/todo")
     public CommonResult<NoData> putTodo(@Validated @RequestBody PutTodoParam param){
         return todoService.putTodo(request, response, param);
     }
 
-    @PostMapping("/mood")
+    @PostMapping("/todo")
     public CommonResult<NoData> postTodo(@Validated @RequestBody PostTodoParam param){
         return todoService.postTodo(request, response, param);
     }
