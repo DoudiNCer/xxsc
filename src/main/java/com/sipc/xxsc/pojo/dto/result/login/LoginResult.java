@@ -6,4 +6,5 @@ import lombok.Data;
 public class LoginResult {
     private Integer userId;
     private String email;
+    private String token;
 }

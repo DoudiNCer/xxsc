@@ -12,22 +12,17 @@ import java.util.Objects;
 
 public class CheckRole {
     public static CommonResult<JWTCheckResult> check(HttpServletRequest request, HttpServletResponse response){
-        Cookie cookie = null;
-        for (Cookie requestCookie : request.getCookies()) {
-            if (Objects.equals(requestCookie.getName(), "token"))
-                cookie = requestCookie;
-        }
-        if (cookie == null)
+        String authorization = request.getHeader("Authorization");
+        if (authorization == null || authorization.length() == 0)
             return CommonResult.userLoginExpired();
-        JWTCheckResult checkResult = JWTUtils.checkToken(cookie.getValue());
+        JWTCheckResult checkResult = JWTUtils.checkToken(authorization);
         if (!checkResult.isRight())
             return CommonResult.userAuthError();
         return CommonResult.success(checkResult);
     }
     public static CommonResult<NoData> init(HttpServletRequest request, HttpServletResponse response, JWTPayloadParam param){
         String token = JWTUtils.getToken(param);
-        Cookie cookie = new Cookie("token", token);
-        response.addCookie(cookie);
+        response.addHeader("Authorization", token);
         return CommonResult.success();
     }
 }

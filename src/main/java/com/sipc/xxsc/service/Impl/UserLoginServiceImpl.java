@@ -77,6 +77,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         CommonResult<NoData> init = CheckRole.init(request, response, payload);
         if (!Objects.equals(init.getCode(), ResultEnum.SUCCESS.getCode()))
             return CommonResult.fail(init.getCode(), init.getMessage());
+        result.setToken(response.getHeader("Authorization"));
         return CommonResult.success(result);
     }
 
