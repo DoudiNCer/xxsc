@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sipc.xxsc.mapper.TodoMapper">
+    <resultMap id="BaseResultMap" type="com.sipc.xxsc.pojo.domain.Todo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="finish" jdbcType="TINYINT" property="finish"/>
+        <result column="date" jdbcType="BIGINT" property="date"/>
+        <result column="todo" jdbcType="VARCHAR" property="todo"/>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO todo (user_id, todo, date, finish)
+        VALUES (#{userId}, #{todo}, #{date}, 0)
+    </insert>
+
+    <update id="updateFinishStatusById">
+        UPDATE todo
+        SET finish = #{finish}
+        WHERE
+            id = #{id}
+    </update>
+
+    <select id="selectTodayTodosByUserId" resultMap="BaseResultMap">
+        SELECT *
+        FROM todo
+        WHERE user_id = #{userId}
+          AND date >= (SELECT unix_timestamp(cast(sysdate() AS date)))
+    </select>
+
+    <select id="selectTodayTodosById" resultMap="BaseResultMap">
+        SELECT *
+        FROM todo
+        WHERE id = #{id}
+          AND date >= (SELECT unix_timestamp(cast(sysdate() AS date)))
+    </select>
+</mapper>
