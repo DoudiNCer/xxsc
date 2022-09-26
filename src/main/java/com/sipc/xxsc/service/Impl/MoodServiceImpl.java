@@ -65,9 +65,9 @@ public class MoodServiceImpl implements MoodService {
             return CommonResult.fail(check.getCode(), check.getMessage());
         Mood mood = moodMapper.selectById(id);
         if (mood == null)
-            return CommonResult.fail("ID对应Mood不存在");
+            return CommonResult.fail("Mood不存在");
         if (!Objects.equals(mood.getUserId(), check.getData().getUserId()))
-            return CommonResult.userResourceException("Mood ID 与用户不匹配");
+            return CommonResult.userResourceException("Mood 与用户不匹配");
         MoodDetail result = new MoodDetail();
         result.setMood(mood.getMood());
         result.setMessage(mood.getMessage());
