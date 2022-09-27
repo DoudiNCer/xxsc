@@ -30,13 +30,13 @@
     <select id="selectByUserId" resultMap="BaseResultMap">
         SELECT *
         FROM mood
-        WHERE user_id = #{userId};
+        WHERE user_id = #{userId}
     </select>
 
     <select id="selectById" resultMap="BaseResultMap">
         SELECT *
         FROM mood
-        WHERE id = #{id};
+        WHERE id = #{id}
     </select>
 
 </mapper>
