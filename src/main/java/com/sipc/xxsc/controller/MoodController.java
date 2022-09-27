@@ -4,15 +4,17 @@ import com.sipc.xxsc.pojo.dto.CommonResult;
 import com.sipc.xxsc.pojo.dto.param.mood.PostMoodParam;
 import com.sipc.xxsc.pojo.dto.param.mood.PutMoodParam;
 import com.sipc.xxsc.pojo.dto.result.NoData;
-import com.sipc.xxsc.pojo.dto.result.mood.MoodDetail;
-import com.sipc.xxsc.pojo.dto.result.mood.MoodSummary;
+import com.sipc.xxsc.pojo.dto.result.mood.MoodDetailResult;
+import com.sipc.xxsc.pojo.dto.result.mood.MoodSummaryResult;
 import com.sipc.xxsc.service.MoodService;
+import jdk.internal.dynalink.linker.LinkerServices;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
 @RequestMapping("/tdmd")
@@ -25,12 +27,14 @@ public class MoodController {
     MoodService moodService;
 
     @GetMapping("/moods")
-    public CommonResult<MoodSummary> getMoods(@RequestParam(name = "page", defaultValue = "1") Integer page){
+    public CommonResult<List<MoodSummaryResult>> getMoods(
+            @RequestParam(name = "page", defaultValue = "1") Integer page
+    ){
         return moodService.getMoods(request, response, page);
     }
 
     @GetMapping("/mood")
-    public CommonResult<MoodDetail> getMood(@RequestParam(name = "id", defaultValue = "1") Integer id){
+    public CommonResult<MoodDetailResult> getMood(@RequestParam(name = "id", defaultValue = "1") Integer id){
         return moodService.getMood(request, response, id);
     }
 

@@ -4,13 +4,14 @@ import com.sipc.xxsc.pojo.dto.CommonResult;
 import com.sipc.xxsc.pojo.dto.param.todo.PostTodoParam;
 import com.sipc.xxsc.pojo.dto.param.todo.PutTodoParam;
 import com.sipc.xxsc.pojo.dto.result.NoData;
-import com.sipc.xxsc.pojo.dto.result.todo.TodoDetail;
+import com.sipc.xxsc.pojo.dto.result.todo.TodoDetailResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public interface TodoService {
-    CommonResult getTodo(HttpServletRequest request, HttpServletResponse response);
+    CommonResult<List<TodoDetailResult>> getTodo(HttpServletRequest request, HttpServletResponse response);
 
     CommonResult<NoData> putTodo(HttpServletRequest request, HttpServletResponse response, PutTodoParam param);
 

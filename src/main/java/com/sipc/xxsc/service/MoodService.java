@@ -4,16 +4,17 @@ import com.sipc.xxsc.pojo.dto.CommonResult;
 import com.sipc.xxsc.pojo.dto.param.mood.PostMoodParam;
 import com.sipc.xxsc.pojo.dto.param.mood.PutMoodParam;
 import com.sipc.xxsc.pojo.dto.result.NoData;
-import com.sipc.xxsc.pojo.dto.result.mood.MoodDetail;
-import com.sipc.xxsc.pojo.dto.result.mood.MoodSummary;
+import com.sipc.xxsc.pojo.dto.result.mood.MoodDetailResult;
+import com.sipc.xxsc.pojo.dto.result.mood.MoodSummaryResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public interface MoodService {
-    CommonResult getMoods(HttpServletRequest request, HttpServletResponse response, Integer page);
+    CommonResult<List<MoodSummaryResult>> getMoods(HttpServletRequest request, HttpServletResponse response, Integer page);
 
-    CommonResult<MoodDetail> getMood(HttpServletRequest request, HttpServletResponse response, Integer id);
+    CommonResult<MoodDetailResult> getMood(HttpServletRequest request, HttpServletResponse response, Integer id);
 
     CommonResult<NoData> putMood(HttpServletRequest request, HttpServletResponse response, PutMoodParam param);
 

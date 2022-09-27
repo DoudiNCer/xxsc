@@ -1,13 +1,12 @@
 package com.sipc.xxsc.service.Impl;
 
-import ch.qos.logback.core.util.TimeUtil;
 import com.sipc.xxsc.mapper.TodoMapper;
 import com.sipc.xxsc.pojo.domain.Todo;
 import com.sipc.xxsc.pojo.dto.CommonResult;
 import com.sipc.xxsc.pojo.dto.param.todo.PostTodoParam;
 import com.sipc.xxsc.pojo.dto.param.todo.PutTodoParam;
 import com.sipc.xxsc.pojo.dto.result.NoData;
-import com.sipc.xxsc.pojo.dto.result.todo.TodoDetail;
+import com.sipc.xxsc.pojo.dto.result.todo.TodoDetailResult;
 import com.sipc.xxsc.pojo.dto.resultEnum.ResultEnum;
 import com.sipc.xxsc.service.TodoService;
 import com.sipc.xxsc.util.CheckRole.CheckRole;
@@ -20,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.LongSummaryStatistics;
 import java.util.Objects;
 
 @Service
@@ -32,18 +30,18 @@ public class TodoServiceImpl implements TodoService {
      * @return 当天的Todo
      */
     @Override
-    public CommonResult getTodo(HttpServletRequest request, HttpServletResponse response) {
+    public CommonResult<List<TodoDetailResult>> getTodo(HttpServletRequest request, HttpServletResponse response) {
         // 鉴权
         CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
         if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
             return CommonResult.fail(check.getCode(), check.getMessage());
-        List<TodoDetail> results = new ArrayList<>();
+        List<TodoDetailResult> results = new ArrayList<>();
         for (Todo todo : todoMapper.selectTodayTodosByUserId(check.getData().getUserId())) {
-            TodoDetail todoDetail = new TodoDetail();
-            todoDetail.setId(todo.getId());
-            todoDetail.setFinish(todo.getFinish());
-            todoDetail.setTodo(todo.getTodo());
-            results.add(todoDetail);
+            TodoDetailResult todoDetailResult = new TodoDetailResult();
+            todoDetailResult.setId(todo.getId());
+            todoDetailResult.setFinish(todo.getFinish());
+            todoDetailResult.setTodo(todo.getTodo());
+            results.add(todoDetailResult);
         }
         return CommonResult.success(results);
     }
