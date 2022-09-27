@@ -75,6 +75,8 @@ public class HollowServiceImpl implements HollowService {
         hollow.setStory(param.getStory());
         hollow.setTime(TimeUtils.getNow());
         hollowMapper.insert(hollow);
+        if (redisUtil.exists("hollowPages"))
+            redisUtil.remove("hollowPages");
         return CommonResult.success();
     }
 
