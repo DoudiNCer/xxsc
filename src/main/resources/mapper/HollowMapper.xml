@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sipc.xxsc.mapper.HollowMapper">
+    <resultMap id="BaseResultMap" type="com.sipc.xxsc.pojo.domain.Hollow">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="comments" jdbcType="INTEGER" property="comments"/>
+        <result column="time" jdbcType="BIGINT" property="time"/>
+        <result column="story" jdbcType="VARCHAR" property="story"/>
+    </resultMap>
+    <insert id="insert">
+        INSERT INTO hollow (user_id, story, time, comments)
+        VALUES(#{userId}, #{story}, #{time}, 0)
+    </insert>
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT
+            COUNT( id )
+        FROM
+            hollow
+    </select>
+    <select id="selectHollows" resultMap="BaseResultMap">
+        SELECT
+            hollow.id AS "id",
+            hollow.comments AS "comments",
+            hollow.story AS "story",
+            hollow.time AS "time",
+            `user`.`name` AS "user"
+        FROM
+            hollow
+            LEFT JOIN `user` ON hollow.user_id = `user`.id
+    </select>
+
+</mapper>

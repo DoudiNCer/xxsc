@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sipc.xxsc.mapper.CommentMapper">
+    <resultMap id="BaseResultMap" type="com.sipc.xxsc.pojo.domain.Comment">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="time" jdbcType="BIGINT" property="time"/>
+        <result column="comment" jdbcType="VARCHAR" property="comment"/>
+        <result column="story_id" jdbcType="INTEGER" property="storyId"/>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO `comment` ( user_id, time, `comment`, story_id )
+        VALUES (#{userId}, #{time}, #{comment}, #{storyId})
+    </insert>
+    <select id="selectByStoryId" resultType="com.sipc.xxsc.pojo.po.CommentPo">
+        SELECT
+            `comment`.id,
+            `comment`.time,
+            `comment`.`comment`,
+            `user`.`name` AS "user"
+        FROM
+            `comment`
+                LEFT JOIN `user` ON `comment`.user_id = `user`.id
+        WHERE
+            `comment`.story_id = #{storyId}
+    </select>
+
+</mapper>
