@@ -95,25 +95,26 @@
             <artifactId>jakarta.validation-api</artifactId>
             <version>3.0.2</version>
         </dependency>
-<!--        &lt;!&ndash;Fix snakeyaml CVEs:-->
-<!--            CVE-2022-25857-->
-<!--            CVE-2022-38749-->
-<!--            CVE-2022-38750-->
-<!--            CVE-2022-38751-->
-<!--            CVE-2022-38752-->
-<!--        &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.yaml</groupId>-->
-<!--            <artifactId>snakeyaml</artifactId>-->
-<!--            <version>1.32</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
+        <!--Fix snakeyaml CVEs:
+            CVE-2022-25857
+            CVE-2022-38749
+            CVE-2022-38750
+            CVE-2022-38751
+            CVE-2022-38752
+        -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.32</version>
+            <scope>compile</scope>
+        </dependency>
         <!--飞书机器人-->
         <dependency>
             <groupId>club.javafamily</groupId>
             <artifactId>feishu-notification-spring-boot-starter</artifactId>
             <version>2.3.2-beta.8</version>
         </dependency>
+        <!--pagehelper-->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
