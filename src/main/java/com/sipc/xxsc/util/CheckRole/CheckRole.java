@@ -1,16 +1,20 @@
 package com.sipc.xxsc.util.CheckRole;
 
+import com.sipc.xxsc.mapper.UserMapper;
+import com.sipc.xxsc.pojo.domain.User;
 import com.sipc.xxsc.pojo.dto.CommonResult;
 import com.sipc.xxsc.pojo.dto.result.NoData;
 import com.sipc.xxsc.util.CheckRole.param.JWTPayloadParam;
 import com.sipc.xxsc.util.CheckRole.result.JWTCheckResult;
 
-import javax.servlet.http.Cookie;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Objects;
 
 public class CheckRole {
+    @Resource
+    private UserMapper userMapper;
+    private static final CheckRole checkRole = new CheckRole();
     public static CommonResult<JWTCheckResult> check(HttpServletRequest request, HttpServletResponse response){
         String authorization = request.getHeader("Authorization");
         if (authorization == null || authorization.length() == 0)
@@ -18,6 +22,9 @@ public class CheckRole {
         JWTCheckResult checkResult = JWTUtils.checkToken(authorization);
         if (!checkResult.isRight())
             return CommonResult.userAuthError();
+        User user = checkRole.userMapper.selectByPrimaryKey(checkResult.getUserId());
+        if (user == null)
+            return CommonResult.userAuthError("用户不存在");
         return CommonResult.success(checkResult);
     }
     public static CommonResult<NoData> init(HttpServletRequest request, HttpServletResponse response, JWTPayloadParam param){

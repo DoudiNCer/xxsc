@@ -2,6 +2,7 @@ package com.sipc.xxsc.pojo.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sipc.xxsc.pojo.dto.resultEnum.ResultEnum;
+import com.sipc.xxsc.util.CheckRole.result.JWTCheckResult;
 import lombok.Data;
 
 @Data
@@ -160,5 +161,9 @@ public class CommonResult<T> {
      */
     public static <T> CommonResult<T> loginError() {
         return new CommonResult<>(ResultEnum.TOKEN_ERROR.getCode(), ResultEnum.TOKEN_ERROR.getMessage(), null);
+    }
+
+    public static <T> CommonResult<T> userAuthError(String message) {
+        return new CommonResult<>(ResultEnum.AUTH_ERROR.getCode(), message, null);
     }
 }
