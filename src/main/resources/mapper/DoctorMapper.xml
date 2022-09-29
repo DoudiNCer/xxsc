@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sipc.xxsc.mapper.DoctorMapper">
+    <resultMap id="BaseResultMap" type="com.sipc.xxsc.pojo.domain.Doctor">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result property="avatarUrl" jdbcType="VARCHAR" column="avatar_url"/>
+        <result property="communicate" jdbcType="CHAR" column="communication"/>
+        <result property="exp" jdbcType="CHAR" column="exp"/>
+        <result property="msg" jdbcType="CHAR" column="msg"/>
+        <result property="name" jdbcType="CHAR" column="name"/>
+        <result property="goodat" jdbcType="CHAR" column="goodat"/>
+    </resultMap>
+
+    <select id="selectDoctors" resultType="com.sipc.xxsc.pojo.po.advisory.DoctorSummaryPo">
+        SELECT
+            id AS "id",
+            avatar_url as "avatarUrl",
+            `name` AS "name",
+            goodat AS "goodat"
+        FROM
+            doctor
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT
+            COUNT( id )
+        FROM
+            doctor
+    </select>
+    <select id="selectById" resultType="com.sipc.xxsc.pojo.po.advisory.DoctorDetailPo">
+        SELECT
+            id,
+            `name`,
+            communicate,
+            exp,
+            msg
+        FROM
+            doctor
+        WHERE
+            id = #{id}
+    </select>
+
+</mapper>
