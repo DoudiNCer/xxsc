@@ -11,4 +11,6 @@ public interface HollowMapper {
     int insert(Hollow hollow);
 
     List<HollowPo> selectHollows();
+
+    Hollow selectById(Integer id);
 }

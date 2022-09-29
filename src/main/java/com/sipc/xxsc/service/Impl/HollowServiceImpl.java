@@ -90,6 +90,9 @@ public class HollowServiceImpl implements HollowService {
         CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
         if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
             return CommonResult.fail(check.getCode(), check.getMessage());
+        Hollow hollow = hollowMapper.selectById(param.getId());
+        if (hollow == null)
+            return CommonResult.fail("故事不存在");
         Comment comment = new Comment();
         comment.setUserId(check.getData().getUserId());
         comment.setTime(TimeUtils.getNow());
@@ -133,6 +136,9 @@ public class HollowServiceImpl implements HollowService {
         CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
         if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
             return CommonResult.fail(check.getCode(), check.getMessage());
+        Hollow hollow = hollowMapper.selectById(storyId);
+        if (hollow == null)
+            return CommonResult.fail("故事不存在");
         PageHelper.startPage(page, 10);
         List<CommentPo> commentPos = commentMapper.selectByStoryId(page, storyId);
         List<CommentResult> results = new ArrayList<>();
