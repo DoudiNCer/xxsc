@@ -6,15 +6,24 @@ import com.sipc.xxsc.pojo.dto.CommonResult;
 import com.sipc.xxsc.pojo.dto.result.NoData;
 import com.sipc.xxsc.util.CheckRole.param.JWTPayloadParam;
 import com.sipc.xxsc.util.CheckRole.result.JWTCheckResult;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+@Component
 public class CheckRole {
     @Resource
     private UserMapper userMapper;
-    private static final CheckRole checkRole = new CheckRole();
+    public static CheckRole checkRole;
+
+    @PostConstruct
+    public void init() {
+        checkRole = this;
+        checkRole.userMapper = this.userMapper;
+    }
+
     public static CommonResult<JWTCheckResult> check(HttpServletRequest request, HttpServletResponse response){
         String authorization = request.getHeader("Authorization");
         if (authorization == null || authorization.length() == 0)
@@ -22,6 +31,8 @@ public class CheckRole {
         JWTCheckResult checkResult = JWTUtils.checkToken(authorization);
         if (!checkResult.isRight())
             return CommonResult.userAuthError();
+        System.out.println("checkRole = " + checkRole);
+        System.out.println("checkRole.userMapper = " + checkRole.userMapper);
         User user = checkRole.userMapper.selectByPrimaryKey(checkResult.getUserId());
         if (user == null)
             return CommonResult.userAuthError("用户不存在");
