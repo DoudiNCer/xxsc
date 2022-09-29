@@ -19,3 +19,8 @@ spring:
 logging:
   level:
     com.sipc.xxsc.mapper: debug
+
+lark-robot:
+  dev: false
+  url: https://open.feishu.cn/open-apis/bot/v2/hook/01f84e24-0f8a-4cfc-83cb-c25275709858
+  profile: dev
