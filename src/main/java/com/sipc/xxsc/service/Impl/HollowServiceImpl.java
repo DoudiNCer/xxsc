@@ -52,7 +52,7 @@ public class HollowServiceImpl implements HollowService {
             pages = (Integer)hollowPages;
         } else {
             Integer count = hollowMapper.selectCount();
-            pages = (count % 5 == 0) ? count : count + 1;
+            pages = count / 5 + (count % 5 == 0 ? 0 : 1);
             redisUtil.set("hollowPages", pages);
         }
         Pages result = new Pages();
