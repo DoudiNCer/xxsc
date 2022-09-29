@@ -42,7 +42,7 @@ public class HollowController {
     }
 
     @PutMapping("/hollow")
-    CommonResult<NoData> putHollow(@Validated @RequestParam PutHollowParam param){
+    CommonResult<NoData> putHollow(@Validated @RequestBody PutHollowParam param){
         return hollowService.putHollow(request, response, param);
     }
 
@@ -55,7 +55,7 @@ public class HollowController {
     }
 
     @PutMapping("/comment")
-    CommonResult<NoData> putComment(@Validated @RequestParam PutCommentsParam param){
+    CommonResult<NoData> putComment(@Validated @RequestBody PutCommentsParam param){
         return hollowService.putComment(request, response, param);
     }
 }
