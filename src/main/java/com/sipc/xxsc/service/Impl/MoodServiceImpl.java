@@ -46,7 +46,7 @@ public class MoodServiceImpl implements MoodService {
             MoodSummaryResult moodSummaryResult = new MoodSummaryResult();
             moodSummaryResult.setMood(ms.getMood());
             moodSummaryResult.setId(ms.getId());
-            moodSummaryResult.setMessage(ms.getMessage());
+            moodSummaryResult.setDate(TimeUtils.formatDateTime(ms.getDate()));
             results.add(moodSummaryResult);
         }
         return CommonResult.success(results);

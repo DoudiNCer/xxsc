@@ -6,5 +6,5 @@ import lombok.Data;
 public class MoodSummaryResult {
     private Integer id;
     private Integer mood;
-    private String message;
+    private String date;
 }
