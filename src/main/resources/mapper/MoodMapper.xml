@@ -38,5 +38,11 @@
         FROM mood
         WHERE id = #{id}
     </select>
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT
+            COUNT( id )
+        FROM
+            mood
+    </select>
 
 </mapper>

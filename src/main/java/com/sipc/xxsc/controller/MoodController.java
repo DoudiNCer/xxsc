@@ -4,10 +4,10 @@ import com.sipc.xxsc.pojo.dto.CommonResult;
 import com.sipc.xxsc.pojo.dto.param.mood.PostMoodParam;
 import com.sipc.xxsc.pojo.dto.param.mood.PutMoodParam;
 import com.sipc.xxsc.pojo.dto.result.NoData;
+import com.sipc.xxsc.pojo.dto.result.Pages;
 import com.sipc.xxsc.pojo.dto.result.mood.MoodDetailResult;
 import com.sipc.xxsc.pojo.dto.result.mood.MoodSummaryResult;
 import com.sipc.xxsc.service.MoodService;
-import jdk.internal.dynalink.linker.LinkerServices;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,5 +46,9 @@ public class MoodController {
     @PostMapping("/mood")
     public CommonResult<NoData> postMood(@Validated @RequestBody PostMoodParam param){
         return moodService.postMood(request, response, param);
+    }
+    @GetMapping("/moodPages")
+    public CommonResult<Pages> getMoodPages(){
+        return moodService.getMoodPages(request, response);
     }
 }

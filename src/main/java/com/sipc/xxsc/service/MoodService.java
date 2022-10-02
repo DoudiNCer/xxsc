@@ -4,6 +4,7 @@ import com.sipc.xxsc.pojo.dto.CommonResult;
 import com.sipc.xxsc.pojo.dto.param.mood.PostMoodParam;
 import com.sipc.xxsc.pojo.dto.param.mood.PutMoodParam;
 import com.sipc.xxsc.pojo.dto.result.NoData;
+import com.sipc.xxsc.pojo.dto.result.Pages;
 import com.sipc.xxsc.pojo.dto.result.mood.MoodDetailResult;
 import com.sipc.xxsc.pojo.dto.result.mood.MoodSummaryResult;
 
@@ -19,4 +20,6 @@ public interface MoodService {
     CommonResult<NoData> putMood(HttpServletRequest request, HttpServletResponse response, PutMoodParam param);
 
     CommonResult<NoData> postMood(HttpServletRequest request, HttpServletResponse response, PostMoodParam param);
+
+    CommonResult<Pages> getMoodPages(HttpServletRequest request, HttpServletResponse response);
 }

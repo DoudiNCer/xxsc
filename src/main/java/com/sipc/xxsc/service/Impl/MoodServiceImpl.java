@@ -8,6 +8,7 @@ import com.sipc.xxsc.pojo.dto.CommonResult;
 import com.sipc.xxsc.pojo.dto.param.mood.PostMoodParam;
 import com.sipc.xxsc.pojo.dto.param.mood.PutMoodParam;
 import com.sipc.xxsc.pojo.dto.result.NoData;
+import com.sipc.xxsc.pojo.dto.result.Pages;
 import com.sipc.xxsc.pojo.dto.result.mood.MoodDetailResult;
 import com.sipc.xxsc.pojo.dto.result.mood.MoodSummaryResult;
 import com.sipc.xxsc.pojo.dto.resultEnum.ResultEnum;
@@ -15,6 +16,7 @@ import com.sipc.xxsc.service.MoodService;
 import com.sipc.xxsc.util.CheckRole.CheckRole;
 import com.sipc.xxsc.util.CheckRole.result.JWTCheckResult;
 import com.sipc.xxsc.util.TimeUtils;
+import com.sipc.xxsc.util.redis.RedisUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,6 +30,8 @@ import java.util.Objects;
 public class MoodServiceImpl implements MoodService {
     @Resource
     MoodMapper moodMapper;
+    @Resource
+    RedisUtil redisUtil;
     /**
      * @apiNote 根据用户的Moods
      * @param page 页数
@@ -92,6 +96,8 @@ public class MoodServiceImpl implements MoodService {
         mood.setMessage(param.getMessage());
         mood.setDate(TimeUtils.getNow());
         moodMapper.insert(mood);
+        if (redisUtil.exists("moodPages"))
+            redisUtil.remove("moodPages");
         return CommonResult.success();
     }
 
@@ -116,5 +122,28 @@ public class MoodServiceImpl implements MoodService {
         mood.setMessage(param.getMessage());
         moodMapper.updateById(mood);
         return CommonResult.success();
+    }
+
+    /**
+     * @return Mood页数
+     */
+    @Override
+    public CommonResult<Pages> getMoodPages(HttpServletRequest request, HttpServletResponse response) {
+        // 鉴权
+        CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
+        if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
+            return CommonResult.fail(check.getCode(), check.getMessage());
+        Object hollowPages = redisUtil.get("moodPages");
+        Integer pages;
+        if (hollowPages instanceof Integer){
+            pages = (Integer)hollowPages;
+        } else {
+            Integer count = moodMapper.selectCount();
+            pages = count / 7 + (count % 7 == 0 ? 0 : 1);
+            redisUtil.set("moodPages", pages);
+        }
+        Pages result = new Pages();
+        result.setPages(pages);
+        return CommonResult.success(result);
     }
 }
