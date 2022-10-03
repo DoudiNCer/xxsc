@@ -44,5 +44,13 @@
         FROM
             mood
     </select>
+    <select id="selectAfterTime" resultMap="BaseResultMap">
+        SELECT
+            *
+        FROM
+            mood
+        WHERE
+            date >= #{date};
+    </select>
 
 </mapper>

@@ -1,7 +1,6 @@
 package com.sipc.xxsc.service.Impl;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.sipc.xxsc.mapper.MoodMapper;
 import com.sipc.xxsc.pojo.domain.Mood;
 import com.sipc.xxsc.pojo.dto.CommonResult;
@@ -145,5 +144,26 @@ public class MoodServiceImpl implements MoodService {
         Pages result = new Pages();
         result.setPages(pages);
         return CommonResult.success(result);
+    }
+
+    /**
+     * @return 今日Mood
+     */
+    @Override
+    public CommonResult<MoodDetailResult> getTodayMood(HttpServletRequest request, HttpServletResponse response) {
+        // 鉴权
+        CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
+        if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
+            return CommonResult.fail(check.getCode(), check.getMessage());
+        Mood mood = moodMapper.selectAfterTime(TimeUtils.getNow());
+        if (mood == null)
+            return CommonResult.success(null);
+        else{
+            MoodDetailResult result = new MoodDetailResult();
+            result.setMood(mood.getMood());
+            result.setMessage(mood.getMessage());
+            result.setDate(TimeUtils.formatDateTime(mood.getDate()));
+            return CommonResult.success(result);
+        }
     }
 }

@@ -38,6 +38,11 @@ public class MoodController {
         return moodService.getMood(request, response, id);
     }
 
+    @GetMapping("/todayMood")
+    public CommonResult<MoodDetailResult> getTodayMood(){
+        return moodService.getTodayMood(request, response);
+    }
+
     @PutMapping("/mood")
     public CommonResult<NoData> putMood(@Validated @RequestBody PutMoodParam param){
         return moodService.putMood(request, response, param);

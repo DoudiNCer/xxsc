@@ -22,4 +22,6 @@ public interface MoodService {
     CommonResult<NoData> postMood(HttpServletRequest request, HttpServletResponse response, PostMoodParam param);
 
     CommonResult<Pages> getMoodPages(HttpServletRequest request, HttpServletResponse response);
+
+    CommonResult<MoodDetailResult> getTodayMood(HttpServletRequest request, HttpServletResponse response);
 }
