@@ -9,6 +9,7 @@
         <result property="msg" jdbcType="CHAR" column="msg"/>
         <result property="name" jdbcType="CHAR" column="name"/>
         <result property="goodat" jdbcType="CHAR" column="goodat"/>
+        <result property="birthday" jdbcType="DATE" column="birthday"/>
     </resultMap>
 
     <select id="selectDoctors" resultType="com.sipc.xxsc.pojo.po.advisory.DoctorSummaryPo">
@@ -30,6 +31,8 @@
     <select id="selectById" resultType="com.sipc.xxsc.pojo.po.advisory.DoctorDetailPo">
         SELECT
             id,
+            avatar_url as "avatarUrl",
+            birthday,
             `name`,
             communicate,
             exp,

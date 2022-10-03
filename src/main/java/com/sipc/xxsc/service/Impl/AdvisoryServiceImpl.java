@@ -12,6 +12,7 @@ import com.sipc.xxsc.pojo.po.advisory.DoctorSummaryPo;
 import com.sipc.xxsc.service.AdvisoryService;
 import com.sipc.xxsc.util.CheckRole.CheckRole;
 import com.sipc.xxsc.util.CheckRole.result.JWTCheckResult;
+import com.sipc.xxsc.util.TimeUtils;
 import com.sipc.xxsc.util.redis.RedisUtil;
 import org.springframework.stereotype.Service;
 
@@ -70,6 +71,6 @@ public class AdvisoryServiceImpl implements AdvisoryService {
         DoctorDetailPo po = doctorMapper.selectById(id);
         if (po == null)
             return CommonResult.fail("医生不存在");
-        return CommonResult.success(new GetDoctorDetailResult(po));
+        return CommonResult.success(new GetDoctorDetailResult(po, TimeUtils.getAge(po.getBirthday())));
     }
 }

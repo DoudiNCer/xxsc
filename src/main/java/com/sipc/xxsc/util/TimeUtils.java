@@ -92,4 +92,13 @@ public class TimeUtils {
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         return simpleDateFormat.format(new Date(time * 1000));
     }
+
+    /**
+     * 获取年龄
+     * @param birthday java.sql.Date 类的对象
+     * @return 一个整数表示年龄
+     */
+    public static Integer getAge(java.sql.Date birthday) {
+        return new Date().getYear() + 1900 - birthday.getYear();
+    }
 }
