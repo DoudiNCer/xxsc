@@ -28,6 +28,7 @@
         FROM
             doctor
     </select>
+
     <select id="selectById" resultType="com.sipc.xxsc.pojo.po.advisory.DoctorDetailPo">
         SELECT
             id,
@@ -42,5 +43,4 @@
         WHERE
             id = #{id}
     </select>
-
 </mapper>

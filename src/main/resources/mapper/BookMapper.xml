@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sipc.xxsc.mapper.BookMapper">
+    <resultMap id="BaseResultMap" type="com.sipc.xxsc.pojo.domain.Book">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <collection property="name" jdbcType="CHAR" column="name"/>
+        <collection property="author" jdbcType="CHAR" column="author"/>
+        <collection property="introduce" jdbcType="VARCHAR" column="introduce"/>
+        <collection property="resourceUrl" jdbcType="VARCHAR" column="resource_url"/>
+        <collection property="photoUrl" jdbcType="VARCHAR" column="photo_url"/>
+    </resultMap>
+
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT
+            COUNT( id )
+        FROM
+            book
+    </select>
+
+    <select id="selectBooks" resultMap="BaseResultMap">
+        SELECT
+            *
+        FROM
+            book
+    </select>
+</mapper>
