@@ -19,6 +19,7 @@ import com.sipc.xxsc.service.HollowService;
 import com.sipc.xxsc.util.CheckRole.CheckRole;
 import com.sipc.xxsc.util.CheckRole.result.JWTCheckResult;
 import com.sipc.xxsc.util.TimeUtils;
+import com.sipc.xxsc.util.redis.RedisEnum;
 import com.sipc.xxsc.util.redis.RedisUtil;
 import org.springframework.stereotype.Service;
 
@@ -46,14 +47,14 @@ public class HollowServiceImpl implements HollowService {
         CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
         if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
             return CommonResult.fail(check.getCode(), check.getMessage());
-        Object hollowPages = redisUtil.get("hollowPages");
+        Object hollowPages = redisUtil.get(RedisEnum.HOLLOWPAGES.getVarName());
         Integer pages;
         if (hollowPages instanceof Integer){
             pages = (Integer)hollowPages;
         } else {
             Integer count = hollowMapper.selectCount();
-            pages = count / 5 + (count % 5 == 0 ? 0 : 1);
-            redisUtil.set("hollowPages", pages);
+            pages = count / RedisEnum.HOLLOWPAGES.getPageSize() + (count % RedisEnum.HOLLOWPAGES.getPageSize() == 0 ? 0 : 1);
+            redisUtil.set(RedisEnum.HOLLOWPAGES.getVarName(), pages);
         }
         Pages result = new Pages();
         result.setPages(pages);
@@ -75,8 +76,8 @@ public class HollowServiceImpl implements HollowService {
         hollow.setStory(param.getStory());
         hollow.setTime(TimeUtils.getNow());
         hollowMapper.insert(hollow);
-        if (redisUtil.exists("hollowPages"))
-            redisUtil.remove("hollowPages");
+        if (redisUtil.exists(RedisEnum.HOLLOWPAGES.getVarName()))
+            redisUtil.remove(RedisEnum.HOLLOWPAGES.getVarName());
         return CommonResult.success();
     }
 
@@ -111,7 +112,7 @@ public class HollowServiceImpl implements HollowService {
         CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
         if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
             return CommonResult.fail(check.getCode(), check.getMessage());
-        PageHelper.startPage(page, 5);
+        PageHelper.startPage(page, RedisEnum.HOLLOWPAGES.getPageSize());
         List<HollowPo> hollowPos = hollowMapper.selectHollows();
         List<HollowResult> results = new ArrayList<>();
         for (HollowPo hollowPo : hollowPos) {
@@ -139,7 +140,7 @@ public class HollowServiceImpl implements HollowService {
         Hollow hollow = hollowMapper.selectById(storyId);
         if (hollow == null)
             return CommonResult.fail("故事不存在");
-        PageHelper.startPage(page, 10);
+        PageHelper.startPage(page, RedisEnum.HOLLOWCOMMENTPAGES.getPageSize());
         List<CommentPo> commentPos = commentMapper.selectByStoryId(page, storyId);
         List<CommentResult> results = new ArrayList<>();
         for (CommentPo commentPo : commentPos){

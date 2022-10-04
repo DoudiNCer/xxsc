@@ -15,6 +15,7 @@ import com.sipc.xxsc.service.MoodService;
 import com.sipc.xxsc.util.CheckRole.CheckRole;
 import com.sipc.xxsc.util.CheckRole.result.JWTCheckResult;
 import com.sipc.xxsc.util.TimeUtils;
+import com.sipc.xxsc.util.redis.RedisEnum;
 import com.sipc.xxsc.util.redis.RedisUtil;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +44,7 @@ public class MoodServiceImpl implements MoodService {
         if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
             return CommonResult.fail(check.getCode(), check.getMessage());
         List<MoodSummaryResult> results = new ArrayList<>();
-        PageHelper.startPage(page, 7);
+        PageHelper.startPage(page, RedisEnum.MOODPAGES.getPageSize());
         List<Mood> moods = moodMapper.selectByUserId(check.getData().getUserId());
         for (Mood ms : moods) {
             MoodSummaryResult moodSummaryResult = new MoodSummaryResult();
@@ -95,8 +96,8 @@ public class MoodServiceImpl implements MoodService {
         mood.setMessage(param.getMessage());
         mood.setDate(TimeUtils.getNow());
         moodMapper.insert(mood);
-        if (redisUtil.exists("moodPages"))
-            redisUtil.remove("moodPages");
+        if (redisUtil.exists(RedisEnum.MOODPAGES.getVarName()))
+            redisUtil.remove(RedisEnum.MOODPAGES.getVarName());
         return CommonResult.success();
     }
 
@@ -132,14 +133,14 @@ public class MoodServiceImpl implements MoodService {
         CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
         if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
             return CommonResult.fail(check.getCode(), check.getMessage());
-        Object hollowPages = redisUtil.get("moodPages");
+        Object hollowPages = redisUtil.get(RedisEnum.MOODPAGES.getVarName());
         Integer pages;
         if (hollowPages instanceof Integer){
             pages = (Integer)hollowPages;
         } else {
             Integer count = moodMapper.selectCount();
-            pages = count / 7 + (count % 7 == 0 ? 0 : 1);
-            redisUtil.set("moodPages", pages);
+            pages = count / RedisEnum.MOODPAGES.getPageSize() + (count % RedisEnum.MOODPAGES.getPageSize() == 0 ? 0 : 1);
+            redisUtil.set(RedisEnum.MOODPAGES.getVarName(), pages);
         }
         Pages result = new Pages();
         result.setPages(pages);

@@ -4,7 +4,11 @@ import lombok.Getter;
 
 @Getter
 public enum RedisEnum {
-    BOOKPAGES("bookPages", 6);
+    BOOKPAGES("bookPages", 6),
+    HOLLOWPAGES("hollowPages",5),
+    HOLLOWCOMMENTPAGES("commentPages", 10),
+    MOODPAGES("moodPages", 7),
+    DOCTORPAGES("doctorPage", 6);
 
     private String varName;
     private Integer pageSize;

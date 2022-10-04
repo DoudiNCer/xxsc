@@ -13,6 +13,7 @@ import com.sipc.xxsc.service.AdvisoryService;
 import com.sipc.xxsc.util.CheckRole.CheckRole;
 import com.sipc.xxsc.util.CheckRole.result.JWTCheckResult;
 import com.sipc.xxsc.util.TimeUtils;
+import com.sipc.xxsc.util.redis.RedisEnum;
 import com.sipc.xxsc.util.redis.RedisUtil;
 import org.springframework.stereotype.Service;
 
@@ -40,19 +41,19 @@ public class AdvisoryServiceImpl implements AdvisoryService {
         if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
             return CommonResult.fail(check.getCode(), check.getMessage());
         List<DoctorSummaryResult> results = new ArrayList<>();
-        PageHelper.startPage(page, 6);
+        PageHelper.startPage(page, RedisEnum.DOCTORPAGES.getPageSize());
         for (DoctorSummaryPo summaryPo : doctorMapper.selectDoctors())
             results.add(new DoctorSummaryResult(summaryPo));
         GetDoctorsResult result = new GetDoctorsResult();
         result.setDoctors(results);
-        Object doctorPage = redisUtil.get("doctorPage");
+        Object doctorPage = redisUtil.get(RedisEnum.DOCTORPAGES.getVarName());
         Integer pages;
         if (doctorPage instanceof Integer)
             pages = (Integer) doctorPage;
         else {
             Integer count = doctorMapper.selectCount();
-            pages = count / 6 + (count % 6 == 0 ? 0 : 1);
-            redisUtil.set("doctorPage", pages);
+            pages = count / RedisEnum.DOCTORPAGES.getPageSize() + (count % RedisEnum.DOCTORPAGES.getPageSize() == 0 ? 0 : 1);
+            redisUtil.set(RedisEnum.DOCTORPAGES.getVarName(), pages);
         }
         result.setPages(pages);
         return CommonResult.success(result);
