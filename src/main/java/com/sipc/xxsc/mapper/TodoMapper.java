@@ -5,7 +5,6 @@ import com.sipc.xxsc.pojo.domain.Todo;
 import java.util.List;
 
 public interface TodoMapper {
-
     List<Todo> selectTodayTodosByUserId(Integer userId);
 
     int insert(Todo todo);

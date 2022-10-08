@@ -2,7 +2,6 @@ package com.sipc.xxsc.pojo.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sipc.xxsc.pojo.dto.resultEnum.ResultEnum;
-import com.sipc.xxsc.util.CheckRole.result.JWTCheckResult;
 import lombok.Data;
 
 @Data

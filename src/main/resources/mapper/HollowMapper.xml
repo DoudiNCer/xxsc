@@ -28,6 +28,7 @@
         FROM
             hollow
             LEFT JOIN `user` ON hollow.user_id = `user`.id
+        ORDER BY hollow.id DESC
     </select>
     <select id="selectById" resultMap="BaseResultMap">
         SELECT

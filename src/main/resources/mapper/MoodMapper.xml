@@ -31,6 +31,7 @@
         SELECT *
         FROM mood
         WHERE user_id = #{userId}
+        ORDER BY id DESC
     </select>
 
     <select id="selectById" resultMap="BaseResultMap">
