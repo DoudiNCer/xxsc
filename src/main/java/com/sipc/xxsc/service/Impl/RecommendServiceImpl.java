@@ -60,9 +60,27 @@ public class RecommendServiceImpl implements RecommendService {
         CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
         if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
             return CommonResult.fail(check.getCode(), check.getMessage());
+
         List<BooksResult> results = new ArrayList<>();
         PageHelper.startPage(page, RedisEnum.BOOKPAGES.getPageSize());
         for (Book selectBook : bookMapper.selectBooks()) {
+            results.add(new BooksResult(selectBook));
+        }
+        return CommonResult.success(results);
+    }
+
+    /**
+     * @param keyword 关键词
+     * @return 搜索结果
+     */
+    @Override
+    public CommonResult<List<BooksResult>> searchBooks(HttpServletRequest request, HttpServletResponse response, String keyword) {
+        CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
+        if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
+            return CommonResult.fail(check.getCode(), check.getMessage());
+
+        List<BooksResult> results = new ArrayList<>();
+        for (Book selectBook : bookMapper.searchBooks(keyword)) {
             results.add(new BooksResult(selectBook));
         }
         return CommonResult.success(results);

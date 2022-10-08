@@ -8,4 +8,6 @@ public interface BookMapper {
     Integer selectCount();
 
     List<Book> selectBooks();
+
+    List<Book> searchBooks(String keyword);
 }

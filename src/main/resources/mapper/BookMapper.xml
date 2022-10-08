@@ -23,4 +23,13 @@
         FROM
             book
     </select>
+
+    <select id="searchBooks" resultMap="BaseResultMap">
+        SELECT
+            *
+        FROM
+            book
+        WHERE
+            `name` LIKE CONCAT('%',#{keyword},'%')
+    </select>
 </mapper>

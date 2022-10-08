@@ -29,9 +29,16 @@ public class RecommendController {
     }
 
     @GetMapping("/books")
-    public CommonResult<List<BooksResult>> getBookPages(
+    public CommonResult<List<BooksResult>> getBooks(
             @RequestParam(name = "page", defaultValue = "1")Integer page
     ){
         return recommendService.getBooks(request, response, page);
+    }
+
+    @GetMapping("/bookSearch")
+    public CommonResult<List<BooksResult>> searchBooks(
+            @RequestParam(name = "keyword") String keyword
+    ){
+        return recommendService.searchBooks(request, response, keyword);
     }
 }

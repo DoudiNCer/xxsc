@@ -12,4 +12,6 @@ public interface RecommendService {
     CommonResult<Pages> getBookPages(HttpServletRequest request, HttpServletResponse response);
 
     CommonResult<List<BooksResult>> getBooks(HttpServletRequest request, HttpServletResponse response, Integer page);
+
+    CommonResult<List<BooksResult>> searchBooks(HttpServletRequest request, HttpServletResponse response, String keyword);
 }
