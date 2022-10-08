@@ -2,7 +2,6 @@ package com.sipc.xxsc.util.CheckRole;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 public class PasswordUtils {
     private static final String salt = "6szml.dzq/mao520Nv3LjkAJsSkd2vQV07jqSIJGtjLZgSasJ7X3AC";
     public static String getsPasswd(String passwd){

@@ -31,8 +31,6 @@ public class CheckRole {
         JWTCheckResult checkResult = JWTUtils.checkToken(authorization);
         if (!checkResult.isRight())
             return CommonResult.userAuthError();
-        System.out.println("checkRole = " + checkRole);
-        System.out.println("checkRole.userMapper = " + checkRole.userMapper);
         User user = checkRole.userMapper.selectByPrimaryKey(checkResult.getUserId());
         if (user == null)
             return CommonResult.userAuthError("用户不存在");

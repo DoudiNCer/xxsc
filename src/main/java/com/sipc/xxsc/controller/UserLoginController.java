@@ -53,7 +53,7 @@ public class UserLoginController {
      * @return 是否修改成功
      */
     @PostMapping("/password")
-    public CommonResult<NoData> changePassword(ChangePasswordParam param){
+    public CommonResult<NoData> changePassword(@Validated @RequestBody ChangePasswordParam param){
         return userLoginService.changePassword(request, response, param);
     }
 }
