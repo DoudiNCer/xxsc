@@ -8,16 +8,19 @@
         <result column="time" jdbcType="BIGINT" property="time"/>
         <result column="story" jdbcType="VARCHAR" property="story"/>
     </resultMap>
+
     <insert id="insert">
         INSERT INTO hollow (user_id, story, time, comments)
         VALUES(#{userId}, #{story}, #{time}, 0)
     </insert>
+
     <select id="selectCount" resultType="java.lang.Integer">
         SELECT
             COUNT( id )
         FROM
             hollow
     </select>
+
     <select id="selectHollows" resultType="com.sipc.xxsc.pojo.po.HollowPo">
         SELECT
             hollow.id AS "id",
@@ -30,6 +33,7 @@
             LEFT JOIN `user` ON hollow.user_id = `user`.id
         ORDER BY hollow.id DESC
     </select>
+
     <select id="selectById" resultMap="BaseResultMap">
         SELECT
             *
@@ -38,5 +42,4 @@
         WHERE
             id = #{id}
     </select>
-
 </mapper>
