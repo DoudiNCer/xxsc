@@ -26,6 +26,9 @@ public class CheckRole {
 
     public static CommonResult<JWTCheckResult> check(HttpServletRequest request, HttpServletResponse response){
         String authorization = request.getHeader("Authorization");
+        return check(authorization);
+    }
+    public static CommonResult<JWTCheckResult> check(String authorization){
         if (authorization == null || authorization.length() == 0)
             return CommonResult.userLoginExpired();
         JWTCheckResult checkResult = JWTUtils.checkToken(authorization);
