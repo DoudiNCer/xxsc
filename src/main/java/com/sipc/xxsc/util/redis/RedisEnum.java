@@ -8,6 +8,7 @@ public enum RedisEnum {
     HOLLOWPAGES("hollowPages",5),
     HOLLOWCOMMENTPAGES("commentPages", 10),
     MOODPAGES("moodPages", 7),
+    TESTPAGES("testPages", 8),
     DOCTORPAGES("doctorPage", 6);
 
     private String varName;
