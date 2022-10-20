@@ -37,6 +37,7 @@ public class CheckRole {
         User user = checkRole.userMapper.selectByPrimaryKey(checkResult.getUserId());
         if (user == null)
             return CommonResult.userAuthError("用户不存在");
+        checkResult.setIsDoctor(user.getIsDoctor());
         return CommonResult.success(checkResult);
     }
     public static CommonResult<NoData> init(HttpServletRequest request, HttpServletResponse response, JWTPayloadParam param){

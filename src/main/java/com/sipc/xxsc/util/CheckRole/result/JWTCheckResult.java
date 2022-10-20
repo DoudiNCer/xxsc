@@ -7,6 +7,7 @@ import lombok.Data;
 public class JWTCheckResult{
     private Integer userId;
     private String userName;
+    private Boolean isDoctor;
     private boolean right;
 
     public JWTCheckResult(JWTPayloadParam jwtPayloadParam) {

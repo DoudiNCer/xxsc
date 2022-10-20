@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class GetUserInfoResult {
+    private Boolean isDoctor;
     private Integer userId;
     private String userName;
     private String email;
