@@ -99,6 +99,6 @@ public class TimeUtils {
      * @return 一个整数表示年龄
      */
     public static Integer getAge(java.sql.Date birthday) {
-        return new Date().getYear() + 1900 - birthday.getYear();
+        return new Date().getYear() - birthday.getYear();
     }
 }
