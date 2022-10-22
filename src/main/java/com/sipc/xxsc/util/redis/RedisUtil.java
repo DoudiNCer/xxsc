@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -87,7 +88,6 @@ public class RedisUtil {
         Object result;
         ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
         result = operations.get(key);
-
         return result;
     }
 
@@ -100,5 +100,26 @@ public class RedisUtil {
         return redisTemplate.opsForValue().increment(key, delta);
     }
 
+    /**
+     * 向 set 添加参数
+     * @param key 不能为空
+     * @param values value
+     * @return
+     */
+    public Long sadd(Object key, List values){
+        Long result = 0L;
+        for (Object obj : values)
+            result += redisTemplate.opsForSet().add(key, obj);
+        return result;
+    }
 
+    /**
+     * 随即从 set 中获取 n 个值
+     * @param key
+     * @param count
+     * @return
+     */
+    public List srandmember(Object key, long count){
+        return redisTemplate.opsForSet().randomMembers(key, count);
+    }
 }

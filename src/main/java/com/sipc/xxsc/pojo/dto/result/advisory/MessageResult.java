@@ -17,4 +17,8 @@ public class MessageResult {
         this.message = message.getMessage();
         this.timestamp = message.getDate();
     }
+
+    public MessageResult() {
+
+    }
 }

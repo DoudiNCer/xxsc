@@ -3,9 +3,11 @@ package com.sipc.xxsc.WSClasses;
 import com.sipc.xxsc.pojo.dto.CommonResult;
 import com.sipc.xxsc.pojo.dto.param.advisory.SendMessageParam;
 import com.sipc.xxsc.pojo.dto.result.advisory.MessageResult;
+import com.sipc.xxsc.util.TimeUtils;
 import com.sipc.xxsc.util.WebSocketUtils.AdvisoryUtil;
 import com.sipc.xxsc.util.WebSocketUtils.MessageUtil;
 import com.sipc.xxsc.util.WebSocketUtils.result.ParseAttributesResult;
+import com.sipc.xxsc.util.talkAi.TalkAiUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -70,6 +72,19 @@ public class HttpAuthHandler extends TextWebSocketHandler {
             sendMessage(session, MessageUtil.CommonResult2MsgJson(CommonResult.fail("Message格式错误")));
             return;
         }
+        if (attributeParam.getDocIsAi()){
+            for (String s : TalkAiUtil.talk(param.getMessage())) {
+                MessageResult result = new MessageResult();
+                result.setMessage(s);
+                result.setFromMe(false);
+                result.setObjectId(0);
+                result.setTimestamp(TimeUtils.getNow());
+                sendMessage(session,
+                        MessageUtil.CommonResult2MsgJson(
+                                CommonResult.success(result)));
+            }
+            return;
+        }
         WebSocketSession objSession = WsSessionManager.get(AdvisoryUtil.getSessionCode(attributeParam, false));
         boolean isRead = false;
         if (objSession == null)
@@ -103,7 +118,17 @@ public class HttpAuthHandler extends TextWebSocketHandler {
             }
             return;
         }
-        WsSessionManager.removeAndClose(AdvisoryUtil.getSessionCode(attributeParam,true), status);
+        if (attributeParam.getDocIsAi()) {
+            try {
+                session.close();
+            } catch (IOException e) {
+                log.warn(e.getMessage());
+                for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+                    log.warn("\t" + stackTraceElement.toString());
+                }
+            }
+        } else
+            WsSessionManager.removeAndClose(AdvisoryUtil.getSessionCode(attributeParam,true), status);
     }
 
     public void sendMessage(WebSocketSession session, String msg) {

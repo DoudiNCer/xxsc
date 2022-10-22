@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sipc.xxsc.mapper.TalkMapper">
+    <resultMap id="KeyIndexMap" type="com.sipc.xxsc.pojo.po.talk.KeyIndexPo">
+        <id column="key" property="key" jdbcType="CHAR" />
+        <collection property="ids" ofType="java.lang.Integer">
+            <id column="id" property="id" jdbcType="INTEGER"/>
+        </collection>
+    </resultMap>
+    <resultMap id="MoodIndexPo" type="com.sipc.xxsc.pojo.po.talk.MoodIndexPo">
+        <id column="mood" property="mood" jdbcType="INTEGER"/>
+        <collection property="ids" ofType="java.lang.Integer">
+            <id column="id" property="id" jdbcType="INTEGER"/>
+        </collection>
+    </resultMap>
+    <select id="selectByKey" resultType="com.sipc.xxsc.pojo.domain.Talk">
+        SELECT * FROM talk
+        WHERE `key` = ${key}
+    </select>
+    <select id="selectKeyIndex" resultMap="KeyIndexMap">
+        SELECT `id` AS 'id', `key` AS 'key'
+        FROM talk
+    </select>
+    <select id="selectMoodIndex" resultMap="MoodIndexPo">
+        SELECT `id` AS 'id', `mood` AS 'mood'
+        FROM talk
+    </select>
+</mapper>
