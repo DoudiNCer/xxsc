@@ -1,11 +1,12 @@
 package com.sipc.xxsc.service.Impl;
 
 import com.github.pagehelper.PageHelper;
+import com.sipc.xxsc.mapper.AdvisoryMapper;
 import com.sipc.xxsc.mapper.DoctorMapper;
+import com.sipc.xxsc.pojo.domain.Advisory;
 import com.sipc.xxsc.pojo.dto.CommonResult;
-import com.sipc.xxsc.pojo.dto.result.advisory.DoctorSummaryResult;
-import com.sipc.xxsc.pojo.dto.result.advisory.GetDoctorDetailResult;
-import com.sipc.xxsc.pojo.dto.result.advisory.GetDoctorsResult;
+import com.sipc.xxsc.pojo.dto.param.advisory.ReserveParam;
+import com.sipc.xxsc.pojo.dto.result.advisory.*;
 import com.sipc.xxsc.pojo.dto.resultEnum.ResultEnum;
 import com.sipc.xxsc.pojo.po.advisory.DoctorDetailPo;
 import com.sipc.xxsc.pojo.po.advisory.DoctorSummaryPo;
@@ -16,6 +17,7 @@ import com.sipc.xxsc.util.TimeUtils;
 import com.sipc.xxsc.util.redis.RedisEnum;
 import com.sipc.xxsc.util.redis.RedisUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +30,8 @@ import java.util.Objects;
 public class AdvisoryServiceImpl implements AdvisoryService {
     @Resource
     DoctorMapper doctorMapper;
+    @Resource
+    AdvisoryMapper advisoryMapper;
     @Resource
     RedisUtil redisUtil;
     /**
@@ -73,5 +77,56 @@ public class AdvisoryServiceImpl implements AdvisoryService {
         if (po == null)
             return CommonResult.fail("医生不存在");
         return CommonResult.success(new GetDoctorDetailResult(po, TimeUtils.getAge(po.getBirthday())));
+    }
+
+    /**
+     * @param request 
+     * @param response
+     * @param param
+     * @return
+     */
+    @Override
+    public CommonResult<AdvisoryReserveResult> reserve(HttpServletRequest request, HttpServletResponse response, ReserveParam param) {
+        // 鉴权
+        CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
+        if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
+            return CommonResult.fail(check.getCode(), check.getMessage());
+        if (check.getData().getIsDoctor())
+            return CommonResult.userAuthError("医生哒咩捣乱");
+        DoctorDetailPo doctorDetailPo = doctorMapper.selectById(param.getDoctorId());
+        if (doctorDetailPo == null)
+            return CommonResult.fail("医生不存在");
+        Advisory advisory = advisoryMapper.selectByUserIdAndDoctorId(check.getData().getUserId(), param.getDoctorId());
+        if (advisory == null) {
+            advisory = new Advisory();
+            advisory.setDoctorId(param.getDoctorId());
+            advisory.setUserId(check.getData().getUserId());
+            advisoryMapper.insert(advisory);
+        }
+        AdvisoryReserveResult result = new AdvisoryReserveResult();
+        result.setAdvisoryId(advisory.getId());
+        return CommonResult.success(result);
+    }
+
+    /**
+     * @param request 
+     * @param response
+     * @return
+     */
+    @Override
+    public CommonResult<List<getAdvisoryReserveResult>> getAdvisoryReserve(HttpServletRequest request, HttpServletResponse response) {
+        // 鉴权
+        CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
+        if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
+            return CommonResult.fail(check.getCode(), check.getMessage());
+        List<Advisory> advisories;
+        if (check.getData().getIsDoctor())
+            advisories = advisoryMapper.selectByDoctorId(check.getData().getUserId());
+        else
+            advisories = advisoryMapper.selectByUserId(check.getData().getUserId());
+        List<getAdvisoryReserveResult> results = new ArrayList<>();
+        for ( Advisory advisory : advisories)
+            results.add(new getAdvisoryReserveResult(advisory));
+        return CommonResult.success(results);
     }
 }

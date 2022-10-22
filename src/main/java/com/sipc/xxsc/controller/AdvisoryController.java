@@ -1,17 +1,19 @@
 package com.sipc.xxsc.controller;
 
 import com.sipc.xxsc.pojo.dto.CommonResult;
+import com.sipc.xxsc.pojo.dto.param.advisory.ReserveParam;
+import com.sipc.xxsc.pojo.dto.result.advisory.AdvisoryReserveResult;
 import com.sipc.xxsc.pojo.dto.result.advisory.GetDoctorDetailResult;
 import com.sipc.xxsc.pojo.dto.result.advisory.GetDoctorsResult;
+import com.sipc.xxsc.pojo.dto.result.advisory.getAdvisoryReserveResult;
 import com.sipc.xxsc.service.AdvisoryService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 心理咨询Controller
@@ -39,4 +41,14 @@ public class AdvisoryController {
     ){
         return advisoryService.getDoctor(request, response, id);
     }
+
+    @PutMapping("/reserve")
+    CommonResult<AdvisoryReserveResult> reserve(@Validated @RequestBody ReserveParam param){
+        return advisoryService.reserve(request, response, param);
+    }
+    @GetMapping("/reserve")
+    CommonResult<List<getAdvisoryReserveResult>> getAdvisoryReserve(){
+        return advisoryService.getAdvisoryReserve(request, response);
+    }
+
 }
