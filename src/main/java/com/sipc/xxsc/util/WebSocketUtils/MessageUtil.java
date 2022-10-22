@@ -38,7 +38,7 @@ public class MessageUtil {
         message.setTo(attributesResult.getIsDoctor() ? attributesResult.getUserId() : attributesResult.getDoctorId());
         message.setIsRead(isRead ? 1 : 0);
         messageUtil.messageMapper.insertMessage(message);
-        MessageResult result = new MessageResult(message, attributesResult.getIsDoctor());
+        MessageResult result = new MessageResult(message, false);
         return CommonResult2MsgJson(CommonResult.success(result));
     }
 
@@ -67,9 +67,9 @@ public class MessageUtil {
         List<Message> messages = messageUtil.messageMapper.selectMessageByFromAndTo(param.getUserId(), param.getDoctorId());
         List<MessageResult> results = new ArrayList<>();
         for (Message message : messages) {
-            results.add(new MessageResult(message, param.getIsDoctor()));
-            if (message.getIsRead() == 0
-                    && Objects.equals(message.getFrom(), param.getIsDoctor() ? param.getDoctorId() : param.getUserId()))
+            boolean fromMe = Objects.equals(message.getFrom(), param.getIsDoctor() ? param.getDoctorId() : param.getUserId());
+            results.add(new MessageResult(message, fromMe));
+            if (message.getIsRead() == 0 && fromMe)
                 messageUtil.messageMapper.readMessage(message.getId());
         }
         return results;
