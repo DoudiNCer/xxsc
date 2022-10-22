@@ -1,16 +1,26 @@
 package com.sipc.xxsc.config;
 
-import org.springframework.context.annotation.Bean;
+import com.sipc.xxsc.WSClasses.HttpAuthHandler;
+import com.sipc.xxsc.interceptor.WsInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.server.standard.ServerEndpointExporter;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import javax.annotation.Resource;
 
 @Configuration
 @EnableWebSocket
-public class WebSocketConfig{
-    @Bean
-    public ServerEndpointExporter serverEndpointExporter() {
-        // 注入一个ServerEndpointExporter,该Bean会自动注册使用@ServerEndpoint注解声明的 websocket endpoint
-        return new ServerEndpointExporter();
+public class WebSocketConfig implements WebSocketConfigurer {
+    @Resource
+    private HttpAuthHandler httpAuthHandler;
+    @Resource
+    private WsInterceptor wsInterceptor;
+
+    @Override
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+        registry
+                .addHandler(httpAuthHandler, "/advisory/chat")
+                .addInterceptors(wsInterceptor)
+                .setAllowedOrigins("*");
     }
 }

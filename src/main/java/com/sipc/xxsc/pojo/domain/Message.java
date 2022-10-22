@@ -7,7 +7,6 @@ public class Message {
     private Integer id;
     private Integer from;
     private Integer to;
-    private Integer type;
     private Long date;
     private Integer isRead;
     private String message;

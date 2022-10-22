@@ -10,6 +10,7 @@ import com.sipc.xxsc.pojo.dto.CommonResult;
 import com.sipc.xxsc.pojo.dto.param.advisory.SendMessageParam;
 import com.sipc.xxsc.pojo.dto.result.advisory.MessageResult;
 import com.sipc.xxsc.util.TimeUtils;
+import com.sipc.xxsc.util.WebSocketUtils.result.ParseAttributesResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,8 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 @Component
 @Slf4j
 public class MessageUtil {
@@ -27,16 +30,15 @@ public class MessageUtil {
 
     private static MessageUtil messageUtil;
 
-    public static String sendMessage(Integer from, SendMessageParam param, Boolean isDoctor, Boolean isRead) {
+    public static String sendMessage(ParseAttributesResult attributesResult, SendMessageParam param, Boolean isRead) {
         Message message = new Message();
         message.setMessage(param.getMessage());
         message.setDate(TimeUtils.getNow());
-        message.setFrom(from);
-        message.setTo(param.getObjectId());
+        message.setFrom(attributesResult.getIsDoctor() ? attributesResult.getDoctorId() : attributesResult.getUserId());
+        message.setTo(attributesResult.getIsDoctor() ? attributesResult.getUserId() : attributesResult.getDoctorId());
         message.setIsRead(isRead ? 1 : 0);
-        message.setType(isDoctor ? 0 : 1);
         messageUtil.messageMapper.insertMessage(message);
-        MessageResult result = new MessageResult(message, isDoctor);
+        MessageResult result = new MessageResult(message, attributesResult.getIsDoctor());
         return CommonResult2MsgJson(CommonResult.success(result));
     }
 
@@ -61,12 +63,13 @@ public class MessageUtil {
         return payloadjson;
     }
 
-    public static List<MessageResult> getStoredMessage(Integer userId, Integer doctorId, Boolean isDoctor) {
-        List<Message> messages = messageUtil.messageMapper.selectMessageByFromAndTo(userId, doctorId);
+    public static List<MessageResult> getStoredMessage(ParseAttributesResult param) {
+        List<Message> messages = messageUtil.messageMapper.selectMessageByFromAndTo(param.getUserId(), param.getDoctorId());
         List<MessageResult> results = new ArrayList<>();
         for (Message message : messages) {
-            results.add(new MessageResult(message, isDoctor));
-            if (message.getIsRead() == 0 && (isDoctor ? message.getType() == 1 : message.getType() == 0))
+            results.add(new MessageResult(message, param.getIsDoctor()));
+            if (message.getIsRead() == 0
+                    && Objects.equals(message.getFrom(), param.getIsDoctor() ? param.getDoctorId() : param.getUserId()))
                 messageUtil.messageMapper.readMessage(message.getId());
         }
         return results;
@@ -75,10 +78,12 @@ public class MessageUtil {
         SendMessageParam result = null;
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-
             result = objectMapper.readValue(paramJson, SendMessageParam.class);
         } catch (JsonProcessingException e) {
             log.warn(e.getMessage());
+            for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+                log.warn("\t" + stackTraceElement.toString());
+            }
         }
         return result;
     }

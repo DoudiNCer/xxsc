@@ -7,7 +7,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class SendMessageParam {
+public class WsConnectParam {
     @NotBlank(message = "不能为空")
-    private String message;
+    private String token;
+    @NotNull(message = "不能为空")
+    @Min(value = 1, message = "格式不正确")
+    private Integer advisoryId;
 }

@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sipc.xxsc.mapper.MessageMapper">
-    <resultMap id="BaseResultMap" type="com.sipc.xxsc.pojo.domain.Message">
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="message" jdbcType="VARCHAR" property="message"/>
-        <result column="from" jdbcType="INTEGER" property="from"/>
-        <result column="to" jdbcType="INTEGER" property="to"/>
-        <result column="date" jdbcType="BIGINT" property="date"/>
-        <result column="type" jdbcType="BIT" property="type"/>
-        <result column="is_read" jdbcType="BIT" property="isRead"/>
-    </resultMap>
 
     <insert id="insertMessage">
-        INSERT INTO message( `from`, `to`, date, type, message, is_read )
-        VALUES( #{from}, #{to}, #{date}, #{type}, #{message}, 0)
+        INSERT INTO message( `from`, `to`, date, message, is_read )
+        VALUES( #{from}, #{to}, #{date}, #{message}, 0)
     </insert>
 
     <update id="readMessage">
@@ -24,14 +15,14 @@
         UPDATE message SET is_read = 1 WHERE `from` = #{from} AND `to` = #{to}
     </update>
 
-    <select id="selectMessageByFromAndTo" resultMap="BaseResultMap">
+    <select id="selectMessageByFromAndTo" resultType="com.sipc.xxsc.pojo.domain.Message">
         SELECT
             *
         FROM
             message
         WHERE
-            ( `from` = #{u0} AND `to` = #{u1} )
-           OR ( `from` = #{u1} AND `to` = #{u0} )
+            ( `from` = #{from} AND `to` = #{to} )
+           OR ( `from` = #{to} AND `to` = #{from} )
         ORDER BY
             date
     </select>
