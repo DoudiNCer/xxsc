@@ -15,7 +15,7 @@
     </resultMap>
     <select id="selectByKey" resultType="com.sipc.xxsc.pojo.domain.Talk">
         SELECT * FROM talk
-        WHERE `key` = ${key}
+        WHERE `key` = #{key}
     </select>
     <select id="selectKeyIndex" resultMap="KeyIndexMap">
         SELECT `id` AS 'id', `key` AS 'key'
