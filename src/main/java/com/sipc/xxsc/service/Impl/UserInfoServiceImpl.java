@@ -78,8 +78,10 @@ public class UserInfoServiceImpl implements UserInfoService {
         UserInfo newUserInfo = new UserInfo();
         newUserInfo.setUserId(param.getUserId());
         newUserInfo.setGender(param.getGender());
-        userMapper.updateByPrimaryKey(newUser);
-        userInfoMapper.updateByPrimaryKey(newUserInfo);
+        if(newUser.getName() != null && newUser.getEmail() != null)
+            userMapper.updateByPrimaryKey(newUser);
+        if (newUserInfo.getGender() != null)
+            userInfoMapper.updateByPrimaryKey(newUserInfo);
         return null;
     }
 }
