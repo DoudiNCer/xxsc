@@ -8,6 +8,7 @@ import com.sipc.xxsc.pojo.dto.CommonResult;
 import com.sipc.xxsc.pojo.dto.param.advisory.ReserveParam;
 import com.sipc.xxsc.pojo.dto.result.advisory.*;
 import com.sipc.xxsc.pojo.dto.resultEnum.ResultEnum;
+import com.sipc.xxsc.pojo.po.advisory.AdvisoryPo;
 import com.sipc.xxsc.pojo.po.advisory.DoctorDetailPo;
 import com.sipc.xxsc.pojo.po.advisory.DoctorSummaryPo;
 import com.sipc.xxsc.service.AdvisoryService;
@@ -46,7 +47,7 @@ public class AdvisoryServiceImpl implements AdvisoryService {
             return CommonResult.fail(check.getCode(), check.getMessage());
         List<DoctorSummaryResult> results = new ArrayList<>();
         PageHelper.startPage(page, RedisEnum.DOCTORPAGES.getPageSize());
-        for (DoctorSummaryPo summaryPo : doctorMapper.selectDoctors())
+        for (DoctorSummaryPo summaryPo : doctorMapper.selectDoctors(check.getData().getUserId()))
             results.add(new DoctorSummaryResult(summaryPo));
         GetDoctorsResult result = new GetDoctorsResult();
         result.setDoctors(results);
@@ -119,14 +120,14 @@ public class AdvisoryServiceImpl implements AdvisoryService {
         CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
         if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
             return CommonResult.fail(check.getCode(), check.getMessage());
-        List<Advisory> advisories;
+        List<AdvisoryPo> advisories;
         if (check.getData().getIsDoctor())
             advisories = advisoryMapper.selectByDoctorId(check.getData().getUserId());
         else
             advisories = advisoryMapper.selectByUserId(check.getData().getUserId());
         List<getAdvisoryReserveResult> results = new ArrayList<>();
-        for ( Advisory advisory : advisories)
-            results.add(new getAdvisoryReserveResult(advisory));
+        for (AdvisoryPo advisoryPo : advisories)
+            results.add(new getAdvisoryReserveResult(advisoryPo));
         return CommonResult.success(results);
     }
 }

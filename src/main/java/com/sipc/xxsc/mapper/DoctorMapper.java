@@ -6,7 +6,7 @@ import com.sipc.xxsc.pojo.po.advisory.DoctorSummaryPo;
 import java.util.List;
 
 public interface DoctorMapper {
-    List<DoctorSummaryPo> selectDoctors();
+    List<DoctorSummaryPo> selectDoctors(Integer userId);
 
     Integer selectCount();
 

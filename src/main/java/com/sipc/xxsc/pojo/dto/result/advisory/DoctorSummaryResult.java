@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class DoctorSummaryResult {
+    private Boolean reserved;
     private Integer id;
     private String avatarUrl;
     private String name;
@@ -15,5 +16,6 @@ public class DoctorSummaryResult {
         this.id = po.getId();
         this.goodat = po.getGoodat();
         this.name = po.getName();
+        this.reserved = po.getReserved();
     }
 }

@@ -14,21 +14,28 @@
             doctor_id = #{doctorId}
         AND user_id = #{userId}
     </select>
-    <select id="selectByDoctorId" resultType="com.sipc.xxsc.pojo.domain.Advisory">
+    <select id="selectByDoctorId" resultType="com.sipc.xxsc.pojo.po.advisory.AdvisoryPo">
         SELECT
-            *
+            advisory.*,
+            avatar_url,
+            `name`
         FROM
             advisory
+                LEFT JOIN user_info ON user_info.user_id = advisory.user_id
+                LEFT JOIN `user` ON `user`.id = user_info.user_id
         WHERE
-            doctor_id = #{doctorId}
+            advisory.doctor_id = #{doctorId}
     </select>
-    <select id="selectByUserId" resultType="com.sipc.xxsc.pojo.domain.Advisory">
+    <select id="selectByUserId" resultType="com.sipc.xxsc.pojo.po.advisory.AdvisoryPo">
         SELECT
-            *
+            advisory.*,
+            avatar_url,
+            `name`
         FROM
             advisory
+                LEFT JOIN doctor ON advisory.doctor_id = doctor.id
         WHERE
-            user_id = #{userId}
+            advisory.user_id = #{userId}
     </select>
     <select id="selectById" resultType="com.sipc.xxsc.pojo.domain.Advisory">
         SELECT
