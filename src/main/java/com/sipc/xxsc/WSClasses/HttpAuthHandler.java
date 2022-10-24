@@ -22,7 +22,6 @@ import java.io.IOException;
 public class HttpAuthHandler extends TextWebSocketHandler {
     /**
      * socket 建立成功事件
-     * @param session
      */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
@@ -49,8 +48,6 @@ public class HttpAuthHandler extends TextWebSocketHandler {
 
     /**
      * 接收消息事件
-     * @param session
-     * @param message
      */
     @Override
     protected void handleTextMessage(WebSocketSession session, @NotNull TextMessage message) {
@@ -69,7 +66,7 @@ public class HttpAuthHandler extends TextWebSocketHandler {
         }
         SendMessageParam param = MessageUtil.msgParamJson2MsgParam(message.getPayload());
         if (param == null) {
-            log.info(attributeParam.toString() + "发送的message格式错误，内容为：\n\t" + message.getPayload());
+            log.info(attributeParam + "发送的message格式错误，内容为：\n\t" + message.getPayload());
             sendMessage(session, MessageUtil.CommonResult2MsgJson(CommonResult.fail("Message格式错误")));
             return;
         }
@@ -102,8 +99,6 @@ public class HttpAuthHandler extends TextWebSocketHandler {
 
     /**
      * socket 断开连接时
-     * @param session
-     * @param status
      */
     @Override
     public void afterConnectionClosed(@NotNull WebSocketSession session, @NotNull CloseStatus status) {

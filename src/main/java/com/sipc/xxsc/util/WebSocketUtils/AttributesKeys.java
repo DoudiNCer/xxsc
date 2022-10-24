@@ -1,6 +1,5 @@
 package com.sipc.xxsc.util.WebSocketUtils;
 
-import com.sipc.xxsc.util.CheckRole.result.JWTCheckResult;
 import lombok.Getter;
 
 @Getter

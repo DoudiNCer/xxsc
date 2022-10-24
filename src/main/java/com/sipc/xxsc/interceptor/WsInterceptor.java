@@ -113,7 +113,7 @@ public class WsInterceptor implements HandshakeInterceptor {
     @Override
     public void afterHandshake(@NotNull ServerHttpRequest request, @NotNull ServerHttpResponse response, @NotNull WebSocketHandler wsHandler, Exception exception) {
         log.info("一个 WebSocket 连接结束，其请求为：");
-        log.info("\t" + request.toString());
+        log.info("\t" + request);
         if (exception != null){
             log.info("抛出了异常：");
             log.warn(exception.getMessage());

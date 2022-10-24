@@ -109,7 +109,6 @@ public class RedisUtil {
      * 向 set 添加参数
      * @param key 不能为空
      * @param values value
-     * @return
      */
     public Long sadd(Object key, List values){
         Long result = 0L;
@@ -167,9 +166,6 @@ public class RedisUtil {
 
     /**
      * 随即从 set 中获取 n 个值
-     * @param key
-     * @param count
-     * @return
      */
     public List srandmember(Object key, long count){
         return redisTemplate.opsForSet().randomMembers(key, count);

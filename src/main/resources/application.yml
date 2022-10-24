@@ -2,7 +2,7 @@ spring:
   application:
     name: XXSC-BackEnd
   profiles:
-    active: dev
+    active: release
 
 mybatis:
   mapper-locations: classpath:/mapper/*.xml

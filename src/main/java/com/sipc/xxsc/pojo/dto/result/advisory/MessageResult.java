@@ -2,7 +2,6 @@ package com.sipc.xxsc.pojo.dto.result.advisory;
 
 import com.sipc.xxsc.pojo.domain.Message;
 import com.sipc.xxsc.util.TimeUtils;
-import com.sipc.xxsc.util.WebSocketUtils.result.ParseAttributesResult;
 import lombok.Data;
 
 @Data

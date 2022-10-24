@@ -28,10 +28,6 @@ public class TestServiceImpl implements TestService {
     @Resource
     TestMapper testMapper;
     /**
-     * @param request 
-     * @param response
-     * @param page
-     * @return
      */
     @Override
     public CommonResult<List<GetTestsResult>> getTests(HttpServletRequest request, HttpServletResponse response, Integer page) {
@@ -49,9 +45,6 @@ public class TestServiceImpl implements TestService {
     }
 
     /**
-     * @param request 
-     * @param response
-     * @return
      */
     @Override
     public CommonResult<Pages> getTestPages(HttpServletRequest request, HttpServletResponse response) {

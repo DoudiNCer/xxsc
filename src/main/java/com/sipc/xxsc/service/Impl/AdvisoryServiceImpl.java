@@ -17,7 +17,6 @@ import com.sipc.xxsc.util.TimeUtils;
 import com.sipc.xxsc.util.redis.RedisEnum;
 import com.sipc.xxsc.util.redis.RedisUtil;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -80,10 +79,6 @@ public class AdvisoryServiceImpl implements AdvisoryService {
     }
 
     /**
-     * @param request 
-     * @param response
-     * @param param
-     * @return
      */
     @Override
     public CommonResult<AdvisoryReserveResult> reserve(HttpServletRequest request, HttpServletResponse response, ReserveParam param) {
@@ -109,9 +104,6 @@ public class AdvisoryServiceImpl implements AdvisoryService {
     }
 
     /**
-     * @param request 
-     * @param response
-     * @return
      */
     @Override
     public CommonResult<List<getAdvisoryReserveResult>> getAdvisoryReserve(HttpServletRequest request, HttpServletResponse response) {
