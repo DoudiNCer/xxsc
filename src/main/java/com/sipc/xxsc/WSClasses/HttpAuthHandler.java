@@ -69,6 +69,7 @@ public class HttpAuthHandler extends TextWebSocketHandler {
         }
         SendMessageParam param = MessageUtil.msgParamJson2MsgParam(message.getPayload());
         if (param == null) {
+            log.info(attributeParam.toString() + "发送的message格式错误，内容为：\n\t" + message.getPayload());
             sendMessage(session, MessageUtil.CommonResult2MsgJson(CommonResult.fail("Message格式错误")));
             return;
         }
