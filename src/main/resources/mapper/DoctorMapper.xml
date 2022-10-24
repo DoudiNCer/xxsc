@@ -14,12 +14,15 @@
 
     <select id="selectDoctors" resultType="com.sipc.xxsc.pojo.po.advisory.DoctorSummaryPo">
         SELECT
-            id AS "id",
-            avatar_url as "avatarUrl",
+            doctor.id AS "id",
+            doctor.avatar_url AS "avatarUrl",
             `name` AS "name",
-            goodat AS "goodat"
+            goodat AS "goodat",
+            IF
+                ( ISNULL( a.id ), 0, 1 ) AS "reserved"
         FROM
             doctor
+                LEFT JOIN ( SELECT * FROM advisory WHERE advisory.user_id = #{userId} ) a ON doctor.id = a.doctor_id
     </select>
 
     <select id="selectCount" resultType="java.lang.Integer">

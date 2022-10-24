@@ -3,10 +3,10 @@ package com.sipc.xxsc.pojo.po.advisory;
 import lombok.Data;
 
 @Data
-public class DoctorSummaryPo {
-    private Boolean reserved;
+public class AdvisoryPo {
     private Integer id;
-    private String avatarUrl;
+    private Integer doctorId;
+    private Integer userId;
     private String name;
-    private String goodat;
+    private String avatarUrl;
 }
