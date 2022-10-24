@@ -13,7 +13,7 @@ public interface MoodMapper {
 
     int updateById(Mood mood);
 
-    Integer selectCount();
+    Integer selectCount(Integer userId);
 
     Mood selectAfterTime(Long date);
 }

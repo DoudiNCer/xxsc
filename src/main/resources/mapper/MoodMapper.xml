@@ -44,6 +44,7 @@
             COUNT( id )
         FROM
             mood
+        WHERE user_id = #{userId}
     </select>
     <select id="selectAfterTime" resultMap="BaseResultMap">
         SELECT

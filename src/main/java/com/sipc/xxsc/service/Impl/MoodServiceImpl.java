@@ -96,8 +96,6 @@ public class MoodServiceImpl implements MoodService {
         mood.setMessage(param.getMessage());
         mood.setDate(TimeUtils.getNow());
         moodMapper.insert(mood);
-        if (redisUtil.exists(RedisEnum.MOODPAGES.getVarName()))
-            redisUtil.remove(RedisEnum.MOODPAGES.getVarName());
         return CommonResult.success();
     }
 
@@ -133,15 +131,8 @@ public class MoodServiceImpl implements MoodService {
         CommonResult<JWTCheckResult> check = CheckRole.check(request, response);
         if (!Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode()))
             return CommonResult.fail(check.getCode(), check.getMessage());
-        Object hollowPages = redisUtil.get(RedisEnum.MOODPAGES.getVarName());
-        Integer pages;
-        if (hollowPages instanceof Integer){
-            pages = (Integer)hollowPages;
-        } else {
-            Integer count = moodMapper.selectCount();
-            pages = count / RedisEnum.MOODPAGES.getPageSize() + (count % RedisEnum.MOODPAGES.getPageSize() == 0 ? 0 : 1);
-            redisUtil.set(RedisEnum.MOODPAGES.getVarName(), pages);
-        }
+        Integer count = moodMapper.selectCount(check.getData().getUserId());
+        Integer pages = count / RedisEnum.MOODPAGES.getPageSize() + (count % RedisEnum.MOODPAGES.getPageSize() == 0 ? 0 : 1);
         Pages result = new Pages();
         result.setPages(pages);
         return CommonResult.success(result);
