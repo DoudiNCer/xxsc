@@ -74,7 +74,7 @@ public class HttpAuthHandler extends TextWebSocketHandler {
             return;
         }
         if (attributeParam.getDocIsAi()){
-            for (String s : TalkAiUtil.talk(param.getMessage())) {
+            for (String s : TalkAiUtil.talk(param.getMessage(), attributeParam)) {
                 MessageResult result = new MessageResult();
                 result.setMessage(s);
                 result.setFromMe(false);

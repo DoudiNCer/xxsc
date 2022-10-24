@@ -1,15 +1,21 @@
 package com.sipc.xxsc.util.redis;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
+@Slf4j
 public class RedisUtil {
 
     @Resource
@@ -37,7 +43,6 @@ public class RedisUtil {
 
         return result;
     }
-
     /**
      * 设置缓存过期时间
      * @param key 键
@@ -110,6 +115,53 @@ public class RedisUtil {
         Long result = 0L;
         for (Object obj : values)
             result += redisTemplate.opsForSet().add(key, obj);
+        return result;
+    }
+    public boolean setListByJson(String key, List value){
+        String json = null;
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            StringWriter stringWriter = new StringWriter();
+            JsonGenerator jsonGenerator = new JsonFactory().createGenerator(stringWriter);
+            objectMapper.writeValue(jsonGenerator, value);
+            jsonGenerator.close();
+            json = stringWriter.toString();
+        } catch (Exception e){
+            log.warn(e.getMessage());
+            for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+                log.warn("\t" + stackTraceElement.toString());
+            }
+        }
+        if (json == null)
+            return false;
+        set(key, json);
+        return true;
+    }
+    public <T> List<T> getListByJson(String key){
+        Object o = get(key);
+        if (o == null)
+            return null;
+        String json = null;
+        try {
+            json = (String) o;
+        } catch (Exception e){
+            log.warn(e.getMessage());
+            for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+                log.warn("\t" + stackTraceElement.toString());
+            }
+        }
+        if (json == null)
+            return null;
+        List<T> result = null;
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            result = objectMapper.readValue(json, List.class);
+        } catch (Exception e){
+            log.warn(e.getMessage());
+            for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+                log.warn("\t" + stackTraceElement.toString());
+            }
+        }
         return result;
     }
 

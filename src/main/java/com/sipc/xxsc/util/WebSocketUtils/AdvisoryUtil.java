@@ -26,11 +26,7 @@ public class AdvisoryUtil {
         ParseAttributesResult result;
         try {
             result = new ParseAttributesResult();
-            if (attributes.get(AttributesKeys.DOCISAI.getName()) != null){
-                result.setDocIsAi(true);
-                return result;
-            }
-            result.setDocIsAi(false);
+            result.setDocIsAi((Boolean) attributes.get(AttributesKeys.DOCISAI.getName()));
             result.setIsDoctor((Boolean) attributes.get(AttributesKeys.ISDOCTOR.getName()));
             result.setAdvisoryId((Integer) attributes.get(AttributesKeys.ADV.getName()));
             result.setUserId((Integer) attributes.get(AttributesKeys.USER.getName()));

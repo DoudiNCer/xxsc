@@ -59,8 +59,13 @@ public class WsInterceptor implements HandshakeInterceptor {
 
         CommonResult<JWTCheckResult> check = CheckRole.check(param.getToken());
         if (Objects.equals(check.getCode(), ResultEnum.SUCCESS.getCode())) {
+            JWTCheckResult data = check.getData();
             if (param.getAdvisoryId() == 0){
                 attributes.put(AttributesKeys.DOCISAI.getName(), Boolean.TRUE);
+                attributes.put(AttributesKeys.ISDOCTOR.getName(), Boolean.FALSE);
+                attributes.put(AttributesKeys.USER.getName(), data.getUserId());
+                attributes.put(AttributesKeys.ADV.getName(), 0);
+                attributes.put(AttributesKeys.DOCTOR.getName(), 0);
                 return true;
             }
             Advisory advisory = advisoryMapper.selectById(param.getAdvisoryId());
@@ -70,9 +75,8 @@ public class WsInterceptor implements HandshakeInterceptor {
                 check = CommonResult.serverError();
             else if ((!Objects.equals(advisory.getDoctorId(), check.getData().getUserId()) && check.getData().getIsDoctor())
                     || (!Objects.equals(advisory.getUserId(), check.getData().getUserId()) && !check.getData().getIsDoctor()))
-                check = CommonResult.userPasswordWrong();
+                check = CommonResult.userAuthError("预约与用户不符");
             else {
-                JWTCheckResult data = check.getData();
                 if (data.getIsDoctor())
                     attributes.put(AttributesKeys.ISDOCTOR.getName(), Boolean.TRUE);
                 else
