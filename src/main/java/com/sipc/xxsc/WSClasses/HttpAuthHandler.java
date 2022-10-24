@@ -80,6 +80,7 @@ public class HttpAuthHandler extends TextWebSocketHandler {
                 result.setFromMe(false);
                 result.setObjectId(0);
                 result.setTimestamp(TimeUtils.getNow());
+                result.setTime(TimeUtils.EasyRead(TimeUtils.getNow() * 1000));
                 sendMessage(session,
                         MessageUtil.CommonResult2MsgJson(
                                 CommonResult.success(result)));
