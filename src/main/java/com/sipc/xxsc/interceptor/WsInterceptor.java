@@ -81,6 +81,7 @@ public class WsInterceptor implements HandshakeInterceptor {
                     attributes.put(AttributesKeys.ISDOCTOR.getName(), Boolean.TRUE);
                 else
                     attributes.put(AttributesKeys.ISDOCTOR.getName(), Boolean.FALSE);
+                attributes.put(AttributesKeys.DOCISAI.getName(), Boolean.FALSE);
                 attributes.put(AttributesKeys.USER.getName(), advisory.getUserId());
                 attributes.put(AttributesKeys.ADV.getName(), advisory.getId());
                 attributes.put(AttributesKeys.DOCTOR.getName(), advisory.getDoctorId());
