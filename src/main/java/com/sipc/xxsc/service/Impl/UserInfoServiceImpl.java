@@ -44,6 +44,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         if (userInfo == null)
             return CommonResult.serverError();
         GetUserInfoResult result = new GetUserInfoResult();
+        result.setIsDoctor(user.getIsDoctor());
         result.setUserId(user.getId());
         result.setUserName(user.getName());
         result.setAvatarUrl(userInfo.getAvatarUrl());
