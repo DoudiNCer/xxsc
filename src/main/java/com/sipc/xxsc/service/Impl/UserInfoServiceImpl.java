@@ -74,14 +74,22 @@ public class UserInfoServiceImpl implements UserInfoService {
         newUser.setEmail(param.getEmail());
         newUser.setName(param.getUserName());
         if(userInfoMapper.selectByUserName(param.getUserName()) != null)
-            return CommonResult.fail("用户已存在");
+            return CommonResult.userUsernameExist();
         UserInfo newUserInfo = new UserInfo();
         newUserInfo.setUserId(param.getUserId());
         newUserInfo.setGender(param.getGender());
-        if(newUser.getName() != null && newUser.getEmail() != null)
+        int edited = 0;
+        if(newUser.getName() != null || newUser.getEmail() != null) {
+            edited++;
             userMapper.updateByPrimaryKey(newUser);
-        if (newUserInfo.getGender() != null)
+        }
+        if (newUserInfo.getGender() != null) {
+            edited++;
             userInfoMapper.updateByPrimaryKey(newUserInfo);
-        return null;
+        }
+        CommonResult<NoData> result = CommonResult.success();
+        if (edited == 0)
+            result = CommonResult.fail("用户未申请任何信息修改");
+        return result;
     }
 }
